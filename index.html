@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Listing Radar Alerts — Automated Classic & Collector Car Alerts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Georgia&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy-950:#0d1728;
+      --navy-900:#14243c;
+      --navy-800:#1a3153;
+      --blue-600:#1f5091;
+      --blue-400:#3f7bc4;
+      --blue-300:#7aa7db;
+      --blue-100:#e4ecf7;
+      --ink:#14243c;
+      --muted:#5d7186;
+      --border:#d5dfeb;
+      --paper:#f3f6fa;
+      --white:#ffffff;
+      --green:#2fae6b;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Space Grotesk',sans-serif;
+      color:var(--ink);
+      background:var(--white);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.5;
+    }
+    .serif{font-family:Georgia,'Times New Roman',serif}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+
+    /* NAV */
+    .nav{
+      position:sticky;top:0;z-index:50;
+      background:rgba(255,255,255,0.9);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-inner{
+      max-width:1200px;margin:0 auto;padding:18px 40px;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand-mark{
+      width:34px;height:34px;border-radius:9px;
+      background:linear-gradient(155deg,var(--navy-900),var(--blue-600));
+      display:flex;align-items:center;justify-content:center;
+      color:var(--white);font-family:Georgia,serif;font-weight:700;font-size:17px;
+    }
+    .brand-name{font-family:Georgia,serif;font-size:19px;font-weight:700;color:var(--navy-900);letter-spacing:-0.01em}
+    .nav-links{display:flex;align-items:center;gap:36px}
+    .nav-links a{font-size:14.5px;font-weight:500;color:var(--muted)}
+    .nav-links a:hover{color:var(--navy-900)}
+    .nav-cta{
+      background:var(--navy-900);color:var(--white)!important;
+      padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;
+    }
+    .nav-cta:hover{background:var(--blue-600)}
+
+    /* HERO */
+    .hero{
+      position:relative;
+      background:radial-gradient(ellipse 1000px 560px at 20% -10%, rgba(63,123,196,0.32), transparent 60%), var(--navy-900);
+      overflow:hidden;
+      padding:88px 40px 96px;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size:56px 56px;
+      mask-image:radial-gradient(ellipse 800px 480px at 20% 0%, black, transparent 75%);
+      pointer-events:none;
+    }
+    .hero-inner{
+      position:relative;max-width:1200px;margin:0 auto;
+      display:grid;grid-template-columns:1fr 0.92fr;gap:56px;align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(122,167,219,0.12);
+      border:1px solid rgba(122,167,219,0.35);
+      color:var(--blue-300);
+      font-size:13px;font-weight:600;letter-spacing:0.02em;
+      padding:7px 14px;border-radius:999px;margin-bottom:26px;
+    }
+    .eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+    .hero h1{
+      font-family:Georgia,serif;
+      font-size:50px;line-height:1.12;letter-spacing:-0.01em;
+      color:var(--white);font-weight:700;margin-bottom:20px;
+    }
+    .hero h1 em{font-style:normal;color:var(--blue-300)}
+    .hero p{
+      font-size:17px;color:#a9bcd6;max-width:480px;margin-bottom:32px;line-height:1.65;
+    }
+    .hero-form{
+      display:flex;gap:10px;max-width:480px;margin-bottom:14px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.14);
+      padding:6px;border-radius:12px;
+    }
+    .hero-form input{
+      flex:1;background:transparent;border:none;outline:none;
+      color:var(--white);font-family:'Space Grotesk',sans-serif;font-size:15px;
+      padding:12px 14px;min-width:0;
+    }
+    .hero-form input::placeholder{color:#7a8ba6}
+    .hero-btn{
+      background:var(--white);color:var(--navy-900);
+      border:none;border-radius:8px;padding:12px 20px;
+      font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;
+      cursor:pointer;white-space:nowrap;
+    }
+    .hero-btn:hover{background:var(--blue-100)}
+    .hero-sub{font-size:13px;color:#7a8ba6}
+    .hero-sub strong{color:#c3d0e2}
+    .hero-audience{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:22px}
+    .hero-audience-label{font-size:12px;color:#7a8ba6;white-space:nowrap}
+    .audience-pill{
+      font-size:12px;font-weight:600;color:var(--blue-300);
+      border:1px solid rgba(122,167,219,0.35);background:rgba(122,167,219,0.08);
+      padding:5px 12px;border-radius:999px;white-space:nowrap;
+    }
+
+    /* HERO VISUAL: realistic email + sms, matched to the actual send template */
+    .hero-visual{position:relative}
+    .device-stack{position:relative;height:500px}
+    .email-window{
+      position:absolute;top:0;left:0;width:100%;max-width:400px;
+      background:var(--paper);border-radius:10px;overflow:hidden;
+      box-shadow:0 40px 70px -30px rgba(5,10,20,0.55);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .email-chrome{
+      background:#eef1f6;padding:9px 14px;
+      display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);
+    }
+    .email-chrome-dot{width:9px;height:9px;border-radius:50%}
+    .email-chrome-dot:nth-child(1){background:#ec6a5e}
+    .email-chrome-dot:nth-child(2){background:#f4bf4f}
+    .email-chrome-dot:nth-child(3){background:#61c454}
+    .email-head{background:var(--navy-900);padding:20px 22px 18px}
+    .email-brand-row{display:flex;align-items:center;gap:12px}
+    .email-badge-mark{
+      width:40px;height:40px;border-radius:50%;flex-shrink:0;
+      border:1px solid #3d6fb0;display:flex;align-items:center;justify-content:center;
+    }
+    .email-badge-mark .ring2{
+      width:26px;height:26px;border-radius:50%;border:1px solid #5c8bc8;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .email-badge-mark .dot{width:10px;height:10px;border-radius:50%;background:var(--blue-300)}
+    .email-word-mark .serif{font-size:16px;color:#eaf1f9;letter-spacing:0.3px}
+    .email-word-mark .sub{font-size:8.5px;letter-spacing:2.6px;text-transform:uppercase;color:var(--blue-300);margin-top:1px}
+    .email-hr{border-top:1px solid #2a3f5f;margin:13px 0}
+    .email-cadence-line{font-size:12px;color:#a3b8d2}
+    .email-cadence-line b{color:#eaf1f9;font-weight:600}
+    .email-body{padding:22px 20px 6px}
+    .email-section-label{
+      font-size:10px;font-weight:700;color:var(--muted);
+      letter-spacing:0.12em;text-transform:uppercase;margin-bottom:9px;
+      padding-bottom:9px;border-bottom:2px solid var(--navy-900);
+    }
+    .email-card{
+      background:var(--white);border:1px solid var(--border);
+      margin-bottom:14px;
+    }
+    .email-thumb{
+      width:100%;height:78px;
+      background:linear-gradient(135deg,#3f7bc4,#14243c);
+    }
+    .email-card-body{padding:12px 14px 14px}
+    .email-listing-title{font-family:Georgia,serif;font-size:13.5px;color:var(--navy-900);margin-bottom:5px;border-bottom:1px solid #b3c5db;display:inline-block;padding-bottom:1px}
+    .email-listing-meta{font-size:10.5px;color:var(--muted);line-height:1.5;margin-bottom:9px}
+    .email-badge{
+      display:inline-block;font-size:9px;font-weight:700;letter-spacing:0.3px;
+      color:#ffffff;padding:3px 8px;border-radius:2px;margin-bottom:9px;
+    }
+    .email-badge.sold{background:#1d6b52}
+    .email-view-btn{
+      display:inline-block;background:var(--blue-600);color:#eaf1f9;
+      font-size:9.5px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;
+      padding:7px 12px;border-radius:2px;
+    }
+
+    .phone-window{
+      position:absolute;bottom:-14px;right:-4px;width:230px;
+      background:var(--navy-950);border-radius:30px;padding:9px;
+      box-shadow:0 40px 70px -28px rgba(5,10,20,0.6);
+      border:1px solid rgba(255,255,255,0.1);
+    }
+    .phone-notch{
+      width:70px;height:16px;background:var(--navy-950);border-radius:0 0 12px 12px;
+      margin:0 auto;position:relative;top:0;
+    }
+    .phone-screen{
+      background:#f4f6f9;border-radius:22px;padding:14px 11px 16px;min-height:250px;
+      margin-top:-16px;
+    }
+    .phone-statusbar{
+      display:flex;justify-content:space-between;font-size:10px;color:var(--navy-900);
+      font-weight:600;padding:0 4px 12px;
+    }
+    .phone-contact{
+      text-align:center;font-size:11px;font-weight:700;color:var(--navy-900);
+      margin-bottom:14px;
+    }
+    .sms-row{display:flex;margin-bottom:8px}
+    .sms-row.in{justify-content:flex-start}
+    .sms-bubble{
+      background:var(--white);border:1px solid var(--border);
+      border-radius:13px 13px 13px 4px;padding:9px 12px;
+      font-size:11px;color:var(--ink);max-width:86%;line-height:1.4;
+      box-shadow:0 2px 5px rgba(20,36,60,0.05);
+    }
+    .sms-bubble b{color:var(--blue-600)}
+    .sms-time-label{
+      text-align:center;font-size:9px;color:var(--muted);margin:6px 0 10px;
+    }
+
+    /* FEATURED-ACROSS STRIP */
+    .featured{padding:26px 40px;background:var(--navy-950);border-top:1px solid rgba(255,255,255,0.06)}
+    .featured-label{
+      text-align:center;font-size:11px;font-weight:600;letter-spacing:0.12em;
+      text-transform:uppercase;color:#5c6d85;margin-bottom:16px;
+    }
+    .featured-row{
+      display:flex;flex-wrap:wrap;justify-content:center;gap:12px 34px;
+      max-width:1000px;margin:0 auto;
+    }
+    .featured-row span{
+      font-family:Georgia,serif;font-size:15px;color:#a9bcd6;letter-spacing:0.01em;
+    }
+
+    /* STATS BAR */
+    .stats{background:var(--navy-800);border-top:1px solid rgba(255,255,255,0.08)}
+    .stats-inner{
+      max-width:1200px;margin:0 auto;padding:26px 40px;
+      display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;
+    }
+    .stat-num{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--white)}
+    .stat-label{font-size:13px;color:#8fa4c2;margin-top:4px}
+
+    /* SECTIONS */
+    section{padding:88px 40px}
+    .section-head{text-align:center;max-width:620px;margin:0 auto 52px}
+    .kicker{
+      font-size:13px;font-weight:600;color:var(--blue-600);
+      letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;
+    }
+    .section-head h2{
+      font-family:Georgia,serif;font-size:34px;color:var(--navy-900);
+      font-weight:700;letter-spacing:-0.01em;margin-bottom:14px;
+    }
+    .section-head p{font-size:16px;color:var(--muted);line-height:1.6}
+
+    /* COVERAGE */
+    .coverage{background:var(--paper)}
+    .coverage-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+      max-width:1120px;margin:0 auto;
+    }
+    .coverage-card{
+      background:var(--white);border:1px solid var(--border);border-radius:14px;
+      padding:26px 20px;text-align:center;
+    }
+    .coverage-icon{
+      width:42px;height:42px;border-radius:11px;margin:0 auto 16px;
+      background:var(--blue-100);color:var(--blue-600);
+      display:flex;align-items:center;justify-content:center;
+      font-size:19px;
+    }
+    .coverage-card h4{font-size:14.5px;font-weight:600;color:var(--navy-900);margin-bottom:6px}
+    .coverage-card p{font-size:12.5px;color:var(--muted);line-height:1.5}
+
+    /* HOW IT WORKS */
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1120px;margin:0 auto}
+    .step{padding:30px 26px;border:1px solid var(--border);border-radius:14px}
+    .step-num{
+      width:36px;height:36px;border-radius:10px;
+      background:var(--navy-900);color:var(--white);
+      display:flex;align-items:center;justify-content:center;
+      font-family:Georgia,serif;font-weight:700;font-size:15px;margin-bottom:18px;
+    }
+    .step h3{font-size:17px;font-weight:600;color:var(--navy-900);margin-bottom:8px}
+    .step p{font-size:14.5px;color:var(--muted);line-height:1.55}
+
+    /* PRICING */
+    .pricing{background:var(--paper)}
+    .pricing-card{
+      max-width:440px;margin:0 auto;background:var(--white);
+      border:1px solid var(--border);border-radius:16px;
+      box-shadow:0 24px 48px -30px rgba(20,36,60,0.2);
+      overflow:hidden;
+    }
+    .pricing-card-head{
+      background:var(--navy-900);padding:32px 32px 28px;text-align:center;
+    }
+    .pricing-amount{display:flex;align-items:flex-end;justify-content:center;gap:4px}
+    .pricing-amount .num{font-family:Georgia,serif;font-size:44px;font-weight:700;color:var(--white);line-height:1}
+    .pricing-amount .per{font-size:14px;color:var(--blue-300);padding-bottom:6px}
+    .pricing-card-head .label{font-size:13px;color:#a9bcd6;margin-top:6px}
+    .pricing-included{padding:24px 32px 6px}
+    .pricing-row{
+      display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:13.5px;color:var(--ink);
+    }
+    .pricing-check{color:var(--green);font-weight:700;flex-shrink:0}
+    .pricing-divider{
+      margin:18px 32px 4px;padding-top:18px;border-top:1px solid var(--border);
+      font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);
+    }
+    .pricing-addons{padding:10px 32px 28px}
+    .addon-row{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      padding:11px 0;border-bottom:1px solid var(--border);
+    }
+    .addon-row:last-child{border-bottom:none}
+    .addon-row-stack{flex-direction:column;align-items:stretch}
+    .addon-name{font-size:13.5px;color:var(--ink);font-weight:500}
+    .addon-desc{font-size:11.5px;color:var(--muted);margin-top:2px}
+    .addon-price{font-size:13.5px;font-weight:600;color:var(--blue-600);white-space:nowrap}
+    .addon-filter-list{
+      display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;
+    }
+    .addon-filter-list span{
+      font-size:11px;color:var(--muted);background:var(--paper);
+      border:1px solid var(--border);border-radius:6px;padding:4px 8px;
+    }
+    .pricing-card-cta{padding:0 32px 32px}
+    .pricing-card-cta a{
+      display:block;text-align:center;background:var(--navy-900);color:var(--white);
+      padding:13px 20px;border-radius:8px;font-weight:600;font-size:14.5px;
+    }
+    .pricing-card-cta a:hover{background:var(--blue-600)}
+    .pricing-notes{max-width:440px;margin:28px auto 0;display:flex;flex-direction:column;gap:12px}
+    .pricing-note{
+      font-size:13px;color:var(--muted);line-height:1.6;
+      background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 16px;
+    }
+    .pricing-note b{color:var(--navy-900)}
+
+    /* CARS WE TRACK */
+    .tracked{background:var(--paper)}
+    .chip-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:880px;margin:0 auto 28px}
+    .chip{
+      background:var(--white);border:1px solid var(--border);
+      padding:9px 16px;border-radius:999px;
+      font-size:13.5px;font-weight:500;color:var(--navy-900);
+    }
+    .chip.muted{color:var(--muted)}
+    .tracked-more{text-align:center;font-size:14.5px;color:var(--muted)}
+    .tracked-more a{color:var(--blue-600);font-weight:600}
+
+    /* PRICING / CTA */
+    .cta{background:linear-gradient(160deg,var(--navy-950),var(--navy-900));text-align:center;position:relative;overflow:hidden}
+    .cta::before{
+      content:"";position:absolute;inset:0;
+      background:radial-gradient(ellipse 600px 300px at 50% 0%, rgba(63,123,196,0.28), transparent 70%);
+    }
+    .cta-inner{position:relative;max-width:600px;margin:0 auto}
+    .cta h2{color:var(--white)}
+    .cta .section-head p{color:#a9bcd6}
+    .cta-btn{
+      display:inline-block;background:var(--white);color:var(--navy-900);
+      padding:15px 32px;border-radius:9px;font-weight:600;font-size:15.5px;margin-top:8px;
+    }
+    .cta-btn:hover{background:var(--blue-100)}
+    .cta-note{font-size:13px;color:#7a8ba6;margin-top:18px}
+
+    /* FOOTER */
+    footer{background:var(--navy-950);padding:56px 40px 32px}
+    .footer-inner{max-width:1200px;margin:0 auto}
+    .footer-top{
+      display:flex;justify-content:space-between;align-items:flex-start;
+      padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.08);flex-wrap:wrap;gap:24px;
+    }
+    footer .brand-name{color:var(--white)}
+    .footer-desc{font-size:13.5px;color:#7a8ba6;margin-top:10px;max-width:290px;line-height:1.6}
+    .footer-links{display:flex;gap:56px;flex-wrap:wrap}
+    .footer-col h4{font-size:12.5px;color:#7a8ba6;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:14px}
+    .footer-col a{display:block;font-size:13.5px;color:#c3d0e2;margin-bottom:10px}
+    .footer-col a:hover{color:var(--white)}
+    .footer-bottom{
+      padding-top:24px;display:flex;justify-content:space-between;
+      font-size:12px;color:#5c6d85;flex-wrap:wrap;gap:8px;
+    }
+
+    @media (max-width:900px){
+      .hero-inner{grid-template-columns:1fr}
+      .device-stack{height:auto;position:static}
+      .email-window{position:static;max-width:100%;margin-bottom:60px}
+      .phone-window{position:static;margin:-40px auto 0;right:auto}
+      .coverage-grid{grid-template-columns:repeat(2,1fr)}
+      .steps{grid-template-columns:1fr}
+      .stats-inner{grid-template-columns:1fr}
+      .nav-links{display:none}
+      .hero h1{font-size:36px}
+      .hero-form{flex-direction:column}
+      section{padding:64px 24px}
+      .nav-inner{padding:18px 24px}
+    }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div class="brand-name">Listing Radar Alerts</div>
+    </div>
+    <div class="nav-links">
+      <a href="how-it-works.html">How it works</a>
+      <a href="cars-we-track.html">Cars we track</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
+    <a class="nav-cta" href="request.html">Get Alerts Now</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Classic &amp; collector car alerts</div>
+      <h1 class="serif">Never miss the <em>next one</em> to hit the block.</h1>
+      <p>Classic cars get listed all over &mdash; auction sites, dealers, and more. We keep an eye on it all for you and send a simple update by email, plus text if you want it. You never have to go looking yourself.</p>
+      <form class="hero-form" method="get" action="request.html">
+        <input type="text" placeholder="e.g. Porsche 911, 1965–1973" name="vehicle" id="hero-search" />
+        <button class="hero-btn" type="submit">Get Alerts Now</button>
+      </form>
+      <div class="hero-sub">Your search carries over into the request form &mdash; <strong>15,000+ vehicles</strong> already on our radar.</div>
+      <div class="hero-audience">
+        <span class="hero-audience-label">Built for</span>
+        <span class="audience-pill">Collectors</span>
+        <span class="audience-pill">Dealers</span>
+        <span class="audience-pill">Brokers</span>
+        <span class="audience-pill">Enthusiasts</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="device-stack">
+        <div class="email-window">
+          <div class="email-chrome">
+            <div class="email-chrome-dot"></div><div class="email-chrome-dot"></div><div class="email-chrome-dot"></div>
+          </div>
+          <div class="email-head">
+            <div class="email-brand-row">
+              <div class="email-badge-mark"><div class="ring2"><div class="dot"></div></div></div>
+              <div class="email-word-mark">
+                <div class="serif">Listing&nbsp;Radar</div>
+                <div class="sub">Alerts</div>
+              </div>
+            </div>
+            <div class="email-hr"></div>
+            <div class="email-cadence-line">Your Weekly Update: <b>Porsche 911 (1965&ndash;1973)</b></div>
+          </div>
+          <div class="email-body">
+            <div class="email-section-label">New Listings</div>
+            <div class="email-card">
+              <div class="email-thumb"></div>
+              <div class="email-card-body">
+                <div class="email-listing-title">1970 Porsche 911S Coupe</div>
+                <div class="email-listing-meta">Irish Green &middot; 41,200 mi &middot; Offered by a private seller in California</div>
+                <div><span class="email-view-btn">View Listing</span></div>
+              </div>
+            </div>
+            <div class="email-section-label">New Sales</div>
+            <div class="email-card">
+              <div class="email-thumb"></div>
+              <div class="email-card-body">
+                <span class="email-badge sold">SOLD &mdash; $118,500</span>
+                <div class="email-listing-title">1972 Porsche 911T Targa</div>
+                <div class="email-listing-meta">Gemini Blue &middot; Sold at auction</div>
+                <div><span class="email-view-btn">View Listing</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-window">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-statusbar"><span>9:14</span><span>&#128246;</span></div>
+            <div class="phone-contact">Listing Radar Alerts</div>
+            <div class="sms-row in"><div class="sms-bubble"><b>Weekly Update &mdash; Porsche 911:</b> 1 new listing, 1 sale. 1970 911S Coupe, Irish Green, 41k mi.</div></div>
+            <div class="sms-time-label">Weekly &middot; Tue 9:14 AM</div>
+            <div class="sms-row in"><div class="sms-bubble">Full details in your email. Reply STOP to opt out.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="featured">
+  <div class="featured-label">Scanning listings across dozens of sites, including</div>
+  <div class="featured-row">
+    <span>Bring a Trailer</span>
+    <span>RM Sotheby's</span>
+    <span>Mecum</span>
+    <span>Barrett-Jackson</span>
+    <span>Gooding &amp; Company</span>
+    <span>Cars &amp; Bids</span>
+    <span>Hemmings</span>
+    <span>Hagerty Marketplace</span>
+    <span style="color:#5c6d85;font-style:italic">and dozens more</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-num serif">15,000+</div>
+      <div class="stat-label">vehicles tracked and growing</div>
+    </div>
+    <div>
+      <div class="stat-num serif">Daily / Weekly</div>
+      <div class="stat-label">alert cadence, your choice</div>
+    </div>
+    <div>
+      <div class="stat-num serif">Email + SMS</div>
+      <div class="stat-label">delivered however you want it</div>
+    </div>
+  </div>
+</div>
+
+<section class="coverage">
+  <div class="section-head">
+    <div class="kicker">Where we look</div>
+    <h2 class="serif">One alert, every corner of the market.</h2>
+    <p>Rather than checking site after site, we do it for you &mdash; scanning broadly and surfacing only the listings that match what you're after.</p>
+  </div>
+  <div class="coverage-grid">
+    <div class="coverage-card">
+      <div class="coverage-icon">&#9776;</div>
+      <h4>Auction Houses</h4>
+      <p>Live and online collector-car auctions across the country.</p>
+    </div>
+    <div class="coverage-card">
+      <div class="coverage-icon">&#9737;</div>
+      <h4>Dealer Marketplaces</h4>
+      <p>Specialty dealer inventory as it's posted and updated.</p>
+    </div>
+    <div class="coverage-card">
+      <div class="coverage-icon">&#9673;</div>
+      <h4>Online Auction Sites</h4>
+      <p>The major online bidding platforms enthusiasts already know.</p>
+    </div>
+    <div class="coverage-card">
+      <div class="coverage-icon">&#10022;</div>
+      <h4>Enthusiast Listings</h4>
+      <p>Owner and club listings that don't always make it to the big sites.</p>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <div class="section-head">
+    <div class="kicker">How it works</div>
+    <h2 class="serif">Simple by design.</h2>
+    <p>No dashboard to manage, no settings to fight with. Tell us what you're after once &mdash; we handle the rest.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num serif">1</div>
+      <h3>Tell us what you're chasing</h3>
+      <p>Submit a quick request with the make, model and year range you want watched &mdash; plus any filters, like color or mileage.</p>
+    </div>
+    <div class="step">
+      <div class="step-num serif">2</div>
+      <h3>We set up your radar</h3>
+      <p>We confirm the details with you directly and get it tracking live &mdash; usually within a day.</p>
+    </div>
+    <div class="step">
+      <div class="step-num serif">3</div>
+      <h3>Alerts land where you want them</h3>
+      <p>Daily or weekly digests by email, with optional SMS for the listings that matter most.</p>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:36px">
+    <a href="how-it-works.html" style="color:var(--blue-600);font-weight:600;font-size:14.5px">See the full walkthrough →</a>
+  </div>
+</section>
+
+<section class="tracked" id="tracked">
+  <div class="section-head">
+    <a href="cars-we-track.html" class="kicker" style="display:inline-block">Cars we track</a>
+    <h2 class="serif">From garage-queen classics to modern collectibles.</h2>
+    <p>A sample of the 15,000+ vehicles already on our radar &mdash; if yours isn't listed yet, we'll add it.</p>
+  </div>
+  <div class="chip-grid">
+    <span class="chip">Porsche 911</span>
+    <span class="chip">Ferrari 308</span>
+    <span class="chip">Chevrolet Corvette C2</span>
+    <span class="chip">Ford Shelby Mustang GT500</span>
+    <span class="chip">BMW M3 (E30)</span>
+    <span class="chip">Mercedes-Benz 190E 2.3-16</span>
+    <span class="chip">Aston Martin DB5</span>
+    <span class="chip">Jaguar E-Type</span>
+    <span class="chip">Land Rover Defender</span>
+    <span class="chip">Toyota Land Cruiser FJ40</span>
+    <span class="chip">Datsun 240Z</span>
+    <span class="chip muted">+ thousands more</span>
+  </div>
+  <div style="text-align:center;margin-top:8px">
+    <a href="cars-we-track.html" style="color:var(--blue-600);font-weight:600;font-size:14.5px">Browse all cars we track →</a>
+  </div>
+</section>
+
+<section class="cta" id="request-cta">
+  <div class="cta-inner">
+    <div class="section-head">
+      <div class="kicker" style="color:var(--blue-300)">Get started</div>
+      <h2 class="serif">Tell us what you're watching for.</h2>
+      <p>Submit a short request and we'll follow up to confirm your vehicle, cadence, and pricing &mdash; then get your alerts running.</p>
+    </div>
+    <a class="cta-btn" href="request.html">Get Alerts Now</a>
+    <div class="cta-note">Have a question first? Email support@listingradaralerts.com</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="brand" style="margin-bottom:2px">
+          <div class="brand-mark">L</div>
+          <div class="brand-name serif">Listing Radar Alerts</div>
+        </div>
+        <p class="footer-desc">Automated alerts for classic and collector cars, scanned across auction houses and marketplaces nationwide and delivered your way.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="how-it-works.html">How it works</a>
+          <a href="cars-we-track.html">Cars we track</a>
+          <a href="pricing.html">Pricing</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="mailto:support@listingradaralerts.com">support@listingradaralerts.com</a>
+          <a href="request.html">Get Alerts Now</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 Listing Radar Alerts. All rights reserved.</div>
+      <div>3151 Cape Horn Rd, Unit #2079, Red Lion, PA 17356</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
