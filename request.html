@@ -89,7 +89,9 @@
     .check-row input{width:17px;height:17px;margin-top:2px;accent-color:var(--navy-900);flex-shrink:0}
     .check-row label{font-size:13.5px;font-weight:600;color:var(--navy-900);margin:0}
     .check-row .form-hint{margin-top:2px}
-    .sms-phone{margin-top:12px;margin-left:27px;display:none}
+    .sms-phone{margin-top:14px;margin-left:27px;display:none}
+    .sms-field{margin-bottom:16px}
+    .sms-consent .check-row label{font-weight:500;font-size:13px;line-height:1.55}
     .sms-phone.show{display:block}
 
     .filters-details{border:1px solid var(--border);border-radius:12px;padding:0;margin-bottom:24px;overflow:hidden}
@@ -139,7 +141,7 @@
     .has-error > input[type=text],.has-error > input[type=email],.has-error > input[type=tel],.has-error > select,.has-error > textarea{border-color:var(--red)}
     .has-error > .swatch-grid{outline:1px solid var(--red);outline-offset:4px;border-radius:9px}
     .vdesc{margin-bottom:0!important}
-    .sms-phone.form-group{margin-bottom:0}
+    
     .field-error{font-size:12px;color:var(--red);margin-top:6px;font-weight:600}
 
     .submit-btn{
@@ -289,15 +291,25 @@
             <div class="form-hint">+$2.99/mo</div>
           </div>
         </div>
-        <div class="sms-phone form-group" id="sms-phone-wrap">
-          <input type="tel" id="f-phone" name="phone" placeholder="(555) 123-4567" inputmode="tel" autocomplete="tel" maxlength="14" />
-          <div class="form-hint">U.S. mobile number, 10 digits, in this format: (555) 123-4567</div>
+        <div class="sms-phone" id="sms-phone-wrap">
+          <div class="form-group sms-field">
+            <label for="f-phone">Mobile number for text alerts</label>
+            <input type="tel" id="f-phone" name="phone" placeholder="(555) 123-4567" inputmode="tel" autocomplete="tel" maxlength="14" />
+            <div class="form-hint">U.S. mobile number, 10 digits, in this format: (555) 123-4567</div>
+          </div>
+          <div class="form-group sms-field sms-consent">
+            <div class="check-row">
+              <input type="checkbox" id="f-sms-consent" name="sms_consent" value="yes" />
+              <label for="f-sms-consent" id="sms-consent-text">I agree to receive recurring automated text messages from Listing Radar Alerts at the mobile number above about the vehicle listing alerts I requested. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. Consent is not a condition of purchase.</label>
+            </div>
+            <div class="form-hint" style="margin-left:27px">See our <a href="terms.html" target="_blank" rel="noopener" style="color:var(--blue-600);font-weight:600">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener" style="color:var(--blue-600);font-weight:600">Privacy Policy</a>. We never share your mobile number or opt-in data with third parties for marketing.</div>
+          </div>
         </div>
       </div>
 
       <button type="submit" class="submit-btn" id="submit-btn">Send My Request</button>
       <div class="form-fine-print" id="submit-error" style="display:none;color:var(--red)">Something went wrong sending your request. Please try again, or email support@listingradaralerts.com.</div>
-      <div class="form-fine-print">No payment now. We'll follow up by email within one business day to confirm your vehicle, cadence, and total price before anything goes live.</div>
+      <div class="form-fine-print">No payment now. We'll follow up by email within one business day to confirm your vehicle, cadence, and total price before anything goes live. By submitting, you agree to our <a href="terms.html" style="text-decoration:underline">Terms of Service</a> and <a href="privacy.html" style="text-decoration:underline">Privacy Policy</a>.</div>
     </form>
 
     <aside class="aside-card">
@@ -353,6 +365,11 @@
           <h4>Support</h4>
           <a href="mailto:support@listingradaralerts.com">support@listingradaralerts.com</a>
           <a href="request.html">Get Alerts Now</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
         </div>
       </div>
     </div>
@@ -539,6 +556,8 @@
     if (sms.checked){
       var digits = phone.value.replace(/\D/g,'');
       if (digits.length !== 10) bad(phone, 'Enter a 10-digit U.S. mobile number, like (555) 123-4567.');
+      var consent = document.getElementById('f-sms-consent');
+      if (!consent.checked) bad(consent, 'Please check the box to agree to receive text messages, or uncheck text alerts.');
     }
     return first;
   }
@@ -594,6 +613,16 @@
     var errorEl = document.getElementById('submit-error');
     errorEl.style.display = 'none';
     document.getElementById('vehicles-summary').value = buildVehiclesSummary();
+    ['sms_consent_text','consent_timestamp','consent_page'].forEach(function(n){
+      var old = form.querySelector('input[type=hidden][name="'+n+'"]'); if (old) old.remove();
+    });
+    if (document.getElementById('f-sms').checked && document.getElementById('f-sms-consent').checked){
+      [['sms_consent_text', document.getElementById('sms-consent-text').textContent.trim()],
+       ['consent_timestamp', new Date().toISOString()],
+       ['consent_page', window.location.href.split('?')[0]]].forEach(function(kv){
+        var h = document.createElement('input'); h.type = 'hidden'; h.name = kv[0]; h.value = kv[1]; form.appendChild(h);
+      });
+    }
     var email = document.getElementById('f-email').value || 'your email';
     var count = document.querySelectorAll('.vehicle-input').length;
     btn.disabled = true;
