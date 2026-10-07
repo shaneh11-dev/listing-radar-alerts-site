@@ -118,14 +118,14 @@
     .form-group select:focus{border-color:var(--blue-400)}
     .form-group select:invalid,.form-group select.is-empty{color:var(--muted)}
     .filter-grid .full{grid-column:1 / -1}
-    .swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+    .swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
     .swatch{position:relative;display:block;margin:0!important}
     .swatch input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;width:100%;height:100%}
     .swatch .chip{
-      display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:9px;
-      background:var(--white);font-size:12.5px;font-weight:600;color:var(--navy-900);line-height:1.2;min-height:40px;
+      display:flex;align-items:center;gap:7px;padding:8px 8px;border:1px solid var(--border);border-radius:9px;
+      background:var(--white);font-size:12px;font-weight:600;color:var(--navy-900);line-height:1.2;min-height:40px;min-width:0;overflow-wrap:anywhere;
     }
-    .swatch .dot{width:18px;height:18px;border-radius:50%;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.12)}
+    .swatch .dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.12)}
     .swatch .dot.other{background:var(--white);border:1.5px dashed var(--muted);box-shadow:none}
     .swatch .dot.any{background:conic-gradient(#d91c1f,#ffa400,#f7d95a,#5aaa12,#008a9e,#0b4a85,#84489c,#d91c1f)}
     .swatch .dot.multi{background:linear-gradient(180deg,#e40303,#ff8c00,#ffed00,#008026,#004dff,#750787)}
@@ -133,8 +133,13 @@
     .swatch input:focus-visible + .chip{outline:2px solid var(--blue-400);outline-offset:1px}
     .swatch input:checked + .chip{border-color:var(--navy-900);background:var(--blue-100);box-shadow:0 0 0 1px var(--navy-900)}
     .filter-grid .check-row{margin-bottom:18px}
-    .has-error input[type=text],.has-error input[type=email],.has-error input[type=tel],.has-error select,.has-error textarea{border-color:var(--red)}
-    .has-error .swatch-grid{outline:1px solid var(--red);outline-offset:4px;border-radius:9px}
+    .any-toggle{display:flex!important;align-items:center;gap:8px;margin:8px 0 0!important;font-size:12.5px!important;font-weight:600!important;color:var(--navy-900);cursor:pointer}
+    .any-toggle input{width:16px;height:16px;accent-color:var(--navy-900);margin:0}
+    .form-group input:disabled{background:var(--paper);color:var(--muted);cursor:not-allowed}
+    .has-error > input[type=text],.has-error > input[type=email],.has-error > input[type=tel],.has-error > select,.has-error > textarea{border-color:var(--red)}
+    .has-error > .swatch-grid{outline:1px solid var(--red);outline-offset:4px;border-radius:9px}
+    .vdesc{margin-bottom:0!important}
+    .sms-phone.form-group{margin-bottom:0}
     .field-error{font-size:12px;color:var(--red);margin-top:6px;font-weight:600}
 
     .submit-btn{
@@ -254,7 +259,7 @@
               <span class="vehicle-num">Vehicle 1</span>
               <button type="button" class="vehicle-remove" onclick="removeVehicle(this)" aria-label="Remove vehicle" style="display:none">&times;</button>
             </div>
-            <textarea class="vehicle-input" placeholder="e.g. Porsche 911 (1965–1973), Ferrari Dino 246 GT, Ford Mustang Boss 302..."></textarea>
+            <div class="form-group vdesc"><textarea class="vehicle-input" placeholder="e.g. Porsche 911 (1965–1973), Ferrari Dino 246 GT, Ford Mustang Boss 302..."></textarea></div>
             <details class="filters-details">
               <summary>
                 <span>Add filters for this vehicle <span class="addon-tag">+$2.99/mo</span></span>
@@ -284,7 +289,7 @@
             <div class="form-hint">+$2.99/mo</div>
           </div>
         </div>
-        <div class="sms-phone" id="sms-phone-wrap">
+        <div class="sms-phone form-group" id="sms-phone-wrap">
           <input type="tel" id="f-phone" name="phone" placeholder="(555) 123-4567" inputmode="tel" autocomplete="tel" maxlength="14" />
           <div class="form-hint">U.S. mobile number, 10 digits, in this format: (555) 123-4567</div>
         </div>
@@ -371,7 +376,7 @@
   function swatchHtml(cls,label,list){
     var chips=[['Any color','any']].concat(list).map(function(c){
       var dot = c[1]==='any'||c[1]==='other'||c[1]==='multi' ? '<span class="dot '+c[1]+'"></span>' : '<span class="dot" style="background:'+c[1]+'"></span>';
-      return '<label class="swatch"><input type="checkbox" class="'+cls+'-opt" value="'+c[0]+'" /><span class="chip">'+dot+c[0]+'</span></label>';
+      return '<label class="swatch"><input type="checkbox" class="'+cls+'-opt" value="'+c[0]+'" /><span class="chip">'+dot+'<span>'+c[0]+'</span></span></label>';
     }).join('');
     return '<div class="form-group full"><label>'+label+'</label><div class="swatch-grid" data-swatch="'+cls+'">'+chips+'</div>'
       + '<div class="form-hint">Select all that apply, or choose &ldquo;Any color.&rdquo;</div></div>';
@@ -379,11 +384,11 @@
 
   function filterFieldsHtml(){
     return '<div class="filter-grid">'
-      + '<div class="form-group"><label>Year (or range)</label><input type="text" class="vehicle-year" placeholder="1967 or 1965–1973" /><div class="form-hint">A single year works too. Type &quot;any&quot; if it doesn&#39;t matter.</div></div>'
+      + '<div class="form-group"><label>Year (or range)</label><input type="text" class="vehicle-year" placeholder="1967 or 1965–1973" /><div class="form-hint">A single year works too.</div><label class="any-toggle"><input type="checkbox" class="vehicle-year-any" /> Any year</label></div>'
       + selectHtml('vehicle-trans','Transmission',['Automatic','Manual','Both / Doesn’t matter'])
       + swatchHtml('vehicle-extcolor','Exterior color',EXT_COLORS)
       + swatchHtml('vehicle-intcolor','Interior color',INT_COLORS)
-      + '<div class="form-group"><label>Max mileage</label><input type="text" class="vehicle-mileage" placeholder="e.g. 60,000" /><div class="form-hint">Type &quot;no limit&quot; if it doesn&#39;t matter.</div></div>'
+      + '<div class="form-group"><label>Max mileage</label><input type="text" class="vehicle-mileage" placeholder="e.g. 60,000" /><label class="any-toggle"><input type="checkbox" class="vehicle-mileage-any" /> No mileage limit</label></div>'
       + '<div class="form-group"><label>State(s)</label><input type="text" class="vehicle-state" placeholder="e.g. TX, OK, LA" /><div class="form-hint">List the states you want, or say &quot;anywhere&quot; if location doesn&#39;t matter.</div></div>'
       + selectHtml('vehicle-region','US or international',['US','International','Both US & International'])
       + selectHtml('vehicle-drive','Drive side',['Left-hand drive','Right-hand drive','Either'])
@@ -402,7 +407,7 @@
     card.className = 'vehicle-card';
     card.innerHTML = '<div class="vehicle-card-head"><span class="vehicle-num"></span>'
       + '<button type="button" class="vehicle-remove" onclick="removeVehicle(this)" aria-label="Remove vehicle">&times;</button></div>'
-      + '<textarea class="vehicle-input" placeholder="e.g. Jaguar E-Type Series 1, Toyota Land Cruiser FJ40..."></textarea>'
+      + '<div class="form-group vdesc"><textarea class="vehicle-input" placeholder="e.g. Jaguar E-Type Series 1, Toyota Land Cruiser FJ40..."></textarea></div>'
       + '<details class="filters-details"><summary><span>Add filters for this vehicle <span class="addon-tag">+$2.99/mo</span></span><span class="plus">+</span></summary>'
       + '<div class="filters-body"></div></details>';
     list.appendChild(card);
@@ -442,6 +447,8 @@
   }
 
   function fieldValue(card, cls){
+    var anyBox = card.querySelector('.'+cls+'-any');
+    if (anyBox && anyBox.checked) return cls === 'vehicle-mileage' ? 'No limit' : 'Any';
     if (card.querySelector('.'+cls+'-opt')) return chipValues(card, cls).join(', ');
     var el = card.querySelector('.'+cls);
     return el ? el.value.trim() : '';
@@ -509,11 +516,11 @@
       var det = card.querySelector('.filters-details');
       if (!det.open) return;
       var checks = [
-        ['vehicle-year','Enter a year or range, or type "any".'],
+        ['vehicle-year','Enter a year or range, or check "Any year".'],
         ['vehicle-trans','Choose a transmission.'],
         ['vehicle-extcolor','Choose at least one exterior color, or "Any color".'],
         ['vehicle-intcolor','Choose at least one interior color, or "Any color".'],
-        ['vehicle-mileage','Enter a max mileage, or type "no limit".'],
+        ['vehicle-mileage','Enter a max mileage, or check "No mileage limit".'],
         ['vehicle-state','Enter state(s), or type "anywhere".'],
         ['vehicle-region','Choose US, international, or both.'],
         ['vehicle-drive','Choose a drive side.'],
@@ -555,6 +562,10 @@
   formEl.addEventListener('change', function(e){
     var t = e.target;
     if (t.tagName === 'SELECT') t.classList.toggle('is-empty', !t.value);
+    if (t.type === 'checkbox' && /-any$/.test(t.className)){
+      var txt = t.closest('.form-group').querySelector('input[type=text]');
+      if (txt){ txt.disabled = t.checked; if (t.checked) txt.value = ''; }
+    }
     // "Any color" is exclusive with specific colors
     if (t.type === 'checkbox' && /-opt$/.test(t.className)){
       var grid = t.closest('.swatch-grid');
