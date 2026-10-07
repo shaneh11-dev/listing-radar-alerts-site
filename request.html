@@ -201,15 +201,18 @@
 <section class="form-section" id="request-form">
   <div class="form-wrap">
 
-    <form class="form-card" id="alert-form">
+    <form class="form-card" id="alert-form" name="request" method="POST">
+      <input type="hidden" name="form-name" value="request" />
+      <p style="display:none"><label>Don't fill this out: <input name="bot-field" /></label></p>
+      <input type="hidden" name="vehicles_summary" id="vehicles-summary" />
       <div class="form-group">
         <label for="f-name">Your name</label>
-        <input type="text" id="f-name" placeholder="Jane Smith" required />
+        <input type="text" id="f-name" name="name" placeholder="Jane Smith" required />
       </div>
 
       <div class="form-group">
         <label for="f-email">Email address</label>
-        <input type="email" id="f-email" placeholder="jane@email.com" required />
+        <input type="email" id="f-email" name="email" placeholder="jane@email.com" required />
         <div class="form-hint">Your weekly or daily alerts will be sent here.</div>
       </div>
 
@@ -289,18 +292,19 @@
 
       <div class="form-group">
         <div class="check-row">
-          <input type="checkbox" id="f-sms" onchange="document.getElementById('sms-phone-wrap').classList.toggle('show', this.checked)" />
+          <input type="checkbox" id="f-sms" name="sms_alerts" value="yes" onchange="document.getElementById('sms-phone-wrap').classList.toggle('show', this.checked)" />
           <div>
             <label for="f-sms">Also send text (SMS) alerts</label>
             <div class="form-hint">+$2.99/mo</div>
           </div>
         </div>
         <div class="sms-phone" id="sms-phone-wrap">
-          <input type="tel" id="f-phone" placeholder="Mobile number" />
+          <input type="tel" id="f-phone" name="phone" placeholder="Mobile number" />
         </div>
       </div>
 
-      <button type="submit" class="submit-btn">Send My Request</button>
+      <button type="submit" class="submit-btn" id="submit-btn">Send My Request</button>
+      <div class="form-fine-print" id="submit-error" style="display:none;color:var(--red)">Something went wrong sending your request. Please try again, or email support@listingradaralerts.com.</div>
       <div class="form-fine-print">No payment now. We'll follow up by email within one business day to confirm your vehicle, cadence, and total price before anything goes live.</div>
     </form>
 
@@ -421,15 +425,55 @@
     }
   })();
 
+  function buildVehiclesSummary(){
+    var fields = [
+      ['vehicle-year','Year'],['vehicle-trans','Transmission'],['vehicle-extcolor','Exterior color'],
+      ['vehicle-intcolor','Interior color'],['vehicle-mileage','Max mileage'],['vehicle-state','State(s)'],
+      ['vehicle-region','US or international'],['vehicle-drive','Drive side'],['vehicle-orig','Originality']
+    ];
+    var out = [];
+    document.querySelectorAll('.vehicle-card').forEach(function(card, i){
+      var lines = ['VEHICLE ' + (i + 1) + ': ' + card.querySelector('.vehicle-input').value.trim()];
+      var filters = [];
+      fields.forEach(function(f){
+        var el = card.querySelector('.' + f[0]);
+        if (el && el.value.trim()) filters.push('  - ' + f[1] + ': ' + el.value.trim());
+      });
+      var tmu = card.querySelector('.vehicle-tmu');
+      if (tmu && tmu.checked) filters.push('  - Hide TMU listings: yes');
+      if (filters.length) lines.push('  Filters:'), lines.push(filters.join('\n'));
+      out.push(lines.join('\n'));
+    });
+    return out.join('\n\n');
+  }
+
   document.getElementById('alert-form').addEventListener('submit', function(e){
     e.preventDefault();
+    var form = e.target;
+    var btn = document.getElementById('submit-btn');
+    var errorEl = document.getElementById('submit-error');
+    errorEl.style.display = 'none';
+    document.getElementById('vehicles-summary').value = buildVehiclesSummary();
     var email = document.getElementById('f-email').value || 'your email';
     var count = document.querySelectorAll('.vehicle-input').length;
-    document.getElementById('confirm-email').textContent = email;
-    document.getElementById('confirm-count').textContent = count + (count === 1 ? ' vehicle' : ' vehicles');
-    document.getElementById('request-form').style.display = 'none';
-    document.getElementById('confirm-screen').style.display = 'block';
-    window.scrollTo({top:0, behavior:'smooth'});
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    fetch("https://somo-2.app.n8n.cloud/webhook/listing-request", {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(function(res){
+      if (!res.ok) throw new Error('Bad response ' + res.status);
+      document.getElementById('confirm-email').textContent = email;
+      document.getElementById('confirm-count').textContent = count + (count === 1 ? ' vehicle' : ' vehicles');
+      document.getElementById('request-form').style.display = 'none';
+      document.getElementById('confirm-screen').style.display = 'block';
+      window.scrollTo({top:0, behavior:'smooth'});
+    }).catch(function(){
+      errorEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Send My Request';
+    });
   });
 </script>
 </body>
