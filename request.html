@@ -101,11 +101,41 @@
     .filters-details summary .plus{font-size:16px;color:var(--blue-600);transition:transform 0.15s}
     .filters-details[open] summary .plus{transform:rotate(45deg)}
     .filters-details summary .addon-tag{font-size:11px;color:var(--blue-600);font-weight:700;margin-left:8px}
-    .filters-body{padding:18px 18px 4px}
+    .filters-body{padding:18px 18px 6px}
     .filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     .filter-grid .form-group{margin-bottom:16px}
     .filter-grid .check-row{grid-column:1 / -1;align-items:center}
     .filter-grid .check-row input{margin-top:0}
+
+
+    .form-group select{
+      width:100%;font-family:'Space Grotesk',sans-serif;font-size:14.5px;color:var(--ink);
+      background:var(--white);border:1px solid var(--border);border-radius:9px;padding:12px 38px 12px 14px;outline:none;
+      appearance:none;-webkit-appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%235d7186' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right 14px center;cursor:pointer;
+    }
+    .form-group select:focus{border-color:var(--blue-400)}
+    .form-group select:invalid,.form-group select.is-empty{color:var(--muted)}
+    .filter-grid .full{grid-column:1 / -1}
+    .swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+    .swatch{position:relative;display:block;margin:0!important}
+    .swatch input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;width:100%;height:100%}
+    .swatch .chip{
+      display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:9px;
+      background:var(--white);font-size:12.5px;font-weight:600;color:var(--navy-900);line-height:1.2;min-height:40px;
+    }
+    .swatch .dot{width:18px;height:18px;border-radius:50%;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.12)}
+    .swatch .dot.other{background:var(--white);border:1.5px dashed var(--muted);box-shadow:none}
+    .swatch .dot.any{background:conic-gradient(#d91c1f,#ffa400,#f7d95a,#5aaa12,#008a9e,#0b4a85,#84489c,#d91c1f)}
+    .swatch .dot.multi{background:linear-gradient(180deg,#e40303,#ff8c00,#ffed00,#008026,#004dff,#750787)}
+    .swatch:hover .chip{border-color:var(--blue-300)}
+    .swatch input:focus-visible + .chip{outline:2px solid var(--blue-400);outline-offset:1px}
+    .swatch input:checked + .chip{border-color:var(--navy-900);background:var(--blue-100);box-shadow:0 0 0 1px var(--navy-900)}
+    .filter-grid .check-row{margin-bottom:18px}
+    .has-error input[type=text],.has-error input[type=email],.has-error input[type=tel],.has-error select,.has-error textarea{border-color:var(--red)}
+    .has-error .swatch-grid{outline:1px solid var(--red);outline-offset:4px;border-radius:9px}
+    .field-error{font-size:12px;color:var(--red);margin-top:6px;font-weight:600}
 
     .submit-btn{
       width:100%;background:var(--navy-900);color:var(--white);border:none;border-radius:9px;
@@ -201,18 +231,18 @@
 <section class="form-section" id="request-form">
   <div class="form-wrap">
 
-    <form class="form-card" id="alert-form" name="request" method="POST">
+    <form class="form-card" id="alert-form" name="request" method="POST" novalidate>
       <input type="hidden" name="form-name" value="request" />
       <p style="display:none"><label>Don't fill this out: <input name="bot-field" /></label></p>
       <input type="hidden" name="vehicles_summary" id="vehicles-summary" />
       <div class="form-group">
         <label for="f-name">Your name</label>
-        <input type="text" id="f-name" name="name" placeholder="Jane Smith" required />
+        <input type="text" id="f-name" name="name" placeholder="Jane Smith" autocomplete="name" />
       </div>
 
       <div class="form-group">
         <label for="f-email">Email address</label>
-        <input type="email" id="f-email" name="email" placeholder="jane@email.com" required />
+        <input type="email" id="f-email" name="email" placeholder="jane@email.com" autocomplete="email" inputmode="email" />
         <div class="form-hint">Your weekly or daily alerts will be sent here.</div>
       </div>
 
@@ -224,57 +254,13 @@
               <span class="vehicle-num">Vehicle 1</span>
               <button type="button" class="vehicle-remove" onclick="removeVehicle(this)" aria-label="Remove vehicle" style="display:none">&times;</button>
             </div>
-            <textarea class="vehicle-input" placeholder="e.g. Porsche 911 (1965–1973), Ferrari Dino 246 GT, Ford Mustang Boss 302..." required></textarea>
+            <textarea class="vehicle-input" placeholder="e.g. Porsche 911 (1965–1973), Ferrari Dino 246 GT, Ford Mustang Boss 302..."></textarea>
             <details class="filters-details">
               <summary>
                 <span>Add filters for this vehicle <span class="addon-tag">+$2.99/mo</span></span>
                 <span class="plus">+</span>
               </summary>
-              <div class="filters-body">
-                <div class="filter-grid">
-                  <div class="form-group">
-                    <label>Year (or range)</label>
-                    <input type="text" class="vehicle-year" placeholder="e.g. 1967, or 1965–1973" />
-                  </div>
-                  <div class="form-group">
-                    <label>Transmission</label>
-                    <input type="text" class="vehicle-trans" placeholder="Manual, automatic..." />
-                  </div>
-                  <div class="form-group">
-                    <label>Exterior color</label>
-                    <input type="text" class="vehicle-extcolor" placeholder="Any preference" />
-                  </div>
-                  <div class="form-group">
-                    <label>Interior color</label>
-                    <input type="text" class="vehicle-intcolor" placeholder="Any preference" />
-                  </div>
-                  <div class="form-group">
-                    <label>Max mileage</label>
-                    <input type="text" class="vehicle-mileage" placeholder="e.g. 60,000" />
-                  </div>
-                  <div class="form-group">
-                    <label>State(s)</label>
-                    <input type="text" class="vehicle-state" placeholder="e.g. TX, OK, LA &mdash; or anywhere" />
-                    <div class="form-hint">List the states you want, or say "anywhere" if location doesn't matter.</div>
-                  </div>
-                  <div class="form-group">
-                    <label>US or international</label>
-                    <input type="text" class="vehicle-region" placeholder="US only, or both" />
-                  </div>
-                  <div class="form-group">
-                    <label>Drive side</label>
-                    <input type="text" class="vehicle-drive" placeholder="Left, right, either" />
-                  </div>
-                  <div class="form-group">
-                    <label>Originality</label>
-                    <input type="text" class="vehicle-orig" placeholder="Numbers-matching, restomod, either" />
-                  </div>
-                  <div class="check-row">
-                    <input type="checkbox" class="vehicle-tmu" />
-                    <label>Hide TMU (title mileage unknown) listings</label>
-                  </div>
-                </div>
-              </div>
+              <div class="filters-body"></div>
             </details>
           </div>
         </div>
@@ -299,7 +285,8 @@
           </div>
         </div>
         <div class="sms-phone" id="sms-phone-wrap">
-          <input type="tel" id="f-phone" name="phone" placeholder="Mobile number" />
+          <input type="tel" id="f-phone" name="phone" placeholder="(555) 123-4567" inputmode="tel" autocomplete="tel" maxlength="14" />
+          <div class="form-hint">U.S. mobile number, 10 digits, in this format: (555) 123-4567</div>
         </div>
       </div>
 
@@ -372,19 +359,41 @@
 </footer>
 
 <script>
+  var EXT_COLORS=[['Beige','#f1eddb'],['Black','#222222'],['Blue','#0b4a85'],['Brown','#4a2f2d'],['Burgundy','#6d0020'],['Gold','#ffc116'],['Gray','#777777'],['Green','#5aaa12'],['Multicolor','multi'],['Orange','#ffa400'],['Other','other'],['Patina/Primer','#1d4347'],['Pink','#f2339b'],['Purple','#84489c'],['Red','#d91c1f'],['Silver','#c9d0d3'],['Teal/Turquoise','#008a9e'],['White','#ffffff'],['Yellow','#f7d95a']];
+  var INT_COLORS=[['Beige/Tan','#f1eddb'],['Black','#222222'],['Blue','#0b4a85'],['Brown','#4a2f2d'],['Gray','#777777'],['Green','#5aaa12'],['Orange','#ffa400'],['Other','other'],['Purple','#84489c'],['Red/Burgundy','#d91c1f'],['Turquoise','#008a9e'],['White','#ffffff'],['Yellow','#f7d95a']];
+
+  function selectHtml(cls,label,opts){
+    return '<div class="form-group"><label>'+label+'</label><select class="'+cls+' is-empty"><option value="">Select&hellip;</option>'
+      + opts.map(function(o){return '<option value="'+o+'">'+o+'</option>';}).join('')
+      + '</select></div>';
+  }
+
+  function swatchHtml(cls,label,list){
+    var chips=[['Any color','any']].concat(list).map(function(c){
+      var dot = c[1]==='any'||c[1]==='other'||c[1]==='multi' ? '<span class="dot '+c[1]+'"></span>' : '<span class="dot" style="background:'+c[1]+'"></span>';
+      return '<label class="swatch"><input type="checkbox" class="'+cls+'-opt" value="'+c[0]+'" /><span class="chip">'+dot+c[0]+'</span></label>';
+    }).join('');
+    return '<div class="form-group full"><label>'+label+'</label><div class="swatch-grid" data-swatch="'+cls+'">'+chips+'</div>'
+      + '<div class="form-hint">Select all that apply, or choose &ldquo;Any color.&rdquo;</div></div>';
+  }
+
   function filterFieldsHtml(){
     return '<div class="filter-grid">'
-      + '<div class="form-group"><label>Year (or range)</label><input type="text" class="vehicle-year" placeholder="e.g. 1967, or 1965–1973" /></div>'
-      + '<div class="form-group"><label>Transmission</label><input type="text" class="vehicle-trans" placeholder="Manual, automatic..." /></div>'
-      + '<div class="form-group"><label>Exterior color</label><input type="text" class="vehicle-extcolor" placeholder="Any preference" /></div>'
-      + '<div class="form-group"><label>Interior color</label><input type="text" class="vehicle-intcolor" placeholder="Any preference" /></div>'
-      + '<div class="form-group"><label>Max mileage</label><input type="text" class="vehicle-mileage" placeholder="e.g. 60,000" /></div>'
-      + '<div class="form-group"><label>State(s)</label><input type="text" class="vehicle-state" placeholder="e.g. TX, OK, LA &mdash; or anywhere" /><div class="form-hint">List the states you want, or say &quot;anywhere&quot; if location doesn&#39;t matter.</div></div>'
-      + '<div class="form-group"><label>US or international</label><input type="text" class="vehicle-region" placeholder="US only, or both" /></div>'
-      + '<div class="form-group"><label>Drive side</label><input type="text" class="vehicle-drive" placeholder="Left, right, either" /></div>'
-      + '<div class="form-group"><label>Originality</label><input type="text" class="vehicle-orig" placeholder="Numbers-matching, restomod, either" /></div>'
+      + '<div class="form-group"><label>Year (or range)</label><input type="text" class="vehicle-year" placeholder="1967 or 1965–1973" /><div class="form-hint">A single year works too. Type &quot;any&quot; if it doesn&#39;t matter.</div></div>'
+      + selectHtml('vehicle-trans','Transmission',['Automatic','Manual','Both / Doesn’t matter'])
+      + swatchHtml('vehicle-extcolor','Exterior color',EXT_COLORS)
+      + swatchHtml('vehicle-intcolor','Interior color',INT_COLORS)
+      + '<div class="form-group"><label>Max mileage</label><input type="text" class="vehicle-mileage" placeholder="e.g. 60,000" /><div class="form-hint">Type &quot;no limit&quot; if it doesn&#39;t matter.</div></div>'
+      + '<div class="form-group"><label>State(s)</label><input type="text" class="vehicle-state" placeholder="e.g. TX, OK, LA" /><div class="form-hint">List the states you want, or say &quot;anywhere&quot; if location doesn&#39;t matter.</div></div>'
+      + selectHtml('vehicle-region','US or international',['US','International','Both US & International'])
+      + selectHtml('vehicle-drive','Drive side',['Left-hand drive','Right-hand drive','Either'])
+      + selectHtml('vehicle-orig','Originality',['Original','Restored','Modified','Any'])
       + '<div class="check-row"><input type="checkbox" class="vehicle-tmu" /><label>Hide TMU (title mileage unknown) listings</label></div>'
       + '</div>';
+  }
+
+  function fillFilters(card){
+    card.querySelector('.filters-body').innerHTML = filterFieldsHtml();
   }
 
   function addVehicle(){
@@ -395,8 +404,9 @@
       + '<button type="button" class="vehicle-remove" onclick="removeVehicle(this)" aria-label="Remove vehicle">&times;</button></div>'
       + '<textarea class="vehicle-input" placeholder="e.g. Jaguar E-Type Series 1, Toyota Land Cruiser FJ40..."></textarea>'
       + '<details class="filters-details"><summary><span>Add filters for this vehicle <span class="addon-tag">+$2.99/mo</span></span><span class="plus">+</span></summary>'
-      + '<div class="filters-body">' + filterFieldsHtml() + '</div></details>';
+      + '<div class="filters-body"></div></details>';
     list.appendChild(card);
+    fillFilters(card);
     renumberVehicles();
   }
 
@@ -414,6 +424,7 @@
     });
   }
 
+  document.querySelectorAll('.vehicle-card').forEach(fillFilters);
   renumberVehicles();
 
   (function prefillVehicleFromQuery(){
@@ -424,6 +435,17 @@
       if (firstInput) firstInput.value = v;
     }
   })();
+
+  /* ---- field helpers ---- */
+  function chipValues(card, cls){
+    return Array.prototype.map.call(card.querySelectorAll('.'+cls+'-opt:checked'), function(el){return el.value;});
+  }
+
+  function fieldValue(card, cls){
+    if (card.querySelector('.'+cls+'-opt')) return chipValues(card, cls).join(', ');
+    var el = card.querySelector('.'+cls);
+    return el ? el.value.trim() : '';
+  }
 
   function buildVehiclesSummary(){
     var fields = [
@@ -436,8 +458,8 @@
       var lines = ['VEHICLE ' + (i + 1) + ': ' + card.querySelector('.vehicle-input').value.trim()];
       var filters = [];
       fields.forEach(function(f){
-        var el = card.querySelector('.' + f[0]);
-        if (el && el.value.trim()) filters.push('  - ' + f[1] + ': ' + el.value.trim());
+        var v = fieldValue(card, f[0]);
+        if (v) filters.push('  - ' + f[1] + ': ' + v);
       });
       var tmu = card.querySelector('.vehicle-tmu');
       if (tmu && tmu.checked) filters.push('  - Hide TMU listings: yes');
@@ -447,8 +469,115 @@
     return out.join('\n\n');
   }
 
+  /* ---- validation ---- */
+  function clearError(group){
+    if (!group) return;
+    group.classList.remove('has-error');
+    var err = group.querySelector(':scope > .field-error');
+    if (err) err.remove();
+  }
+
+  function setError(el, msg){
+    var group = el.closest('.form-group');
+    if (!group) return;
+    clearError(group);
+    group.classList.add('has-error');
+    var d = document.createElement('div');
+    d.className = 'field-error';
+    d.textContent = msg;
+    group.appendChild(d);
+  }
+
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function validateForm(){
+    var first = null;
+    function bad(el, msg){ setError(el, msg); if (!first) first = el; }
+    document.querySelectorAll('#alert-form .form-group').forEach(clearError);
+
+    var name = document.getElementById('f-name');
+    if (!name.value.trim()) bad(name, 'Please enter your name.');
+
+    var email = document.getElementById('f-email');
+    var ev = email.value.trim();
+    if (!ev) bad(email, 'Please enter your email address.');
+    else if (!EMAIL_RE.test(ev)) bad(email, 'Please enter a valid email address, like jane@email.com.');
+
+    document.querySelectorAll('.vehicle-card').forEach(function(card, i){
+      var vi = card.querySelector('.vehicle-input');
+      if (!vi.value.trim()) bad(vi, 'Tell us what you want tracked.');
+      var det = card.querySelector('.filters-details');
+      if (!det.open) return;
+      var checks = [
+        ['vehicle-year','Enter a year or range, or type "any".'],
+        ['vehicle-trans','Choose a transmission.'],
+        ['vehicle-extcolor','Choose at least one exterior color, or "Any color".'],
+        ['vehicle-intcolor','Choose at least one interior color, or "Any color".'],
+        ['vehicle-mileage','Enter a max mileage, or type "no limit".'],
+        ['vehicle-state','Enter state(s), or type "anywhere".'],
+        ['vehicle-region','Choose US, international, or both.'],
+        ['vehicle-drive','Choose a drive side.'],
+        ['vehicle-orig','Choose an originality option.']
+      ];
+      checks.forEach(function(c){
+        if (!fieldValue(card, c[0])){
+          var target = card.querySelector('.'+c[0]) || card.querySelector('.'+c[0]+'-opt');
+          bad(target, c[1]);
+        }
+      });
+    });
+
+    var sms = document.getElementById('f-sms');
+    var phone = document.getElementById('f-phone');
+    if (sms.checked){
+      var digits = phone.value.replace(/\D/g,'');
+      if (digits.length !== 10) bad(phone, 'Enter a 10-digit U.S. mobile number, like (555) 123-4567.');
+    }
+    return first;
+  }
+
+  function formatPhone(v){
+    var d = v.replace(/\D/g,'');
+    if (d.length > 10 && d.charAt(0) === '1') d = d.slice(1);
+    d = d.slice(0,10);
+    if (d.length < 4) return d;
+    if (d.length < 7) return '(' + d.slice(0,3) + ') ' + d.slice(3);
+    return '(' + d.slice(0,3) + ') ' + d.slice(3,6) + '-' + d.slice(6);
+  }
+
+  var formEl = document.getElementById('alert-form');
+
+  formEl.addEventListener('input', function(e){
+    if (e.target.id === 'f-phone') e.target.value = formatPhone(e.target.value);
+    clearError(e.target.closest('.form-group'));
+  });
+
+  formEl.addEventListener('change', function(e){
+    var t = e.target;
+    if (t.tagName === 'SELECT') t.classList.toggle('is-empty', !t.value);
+    // "Any color" is exclusive with specific colors
+    if (t.type === 'checkbox' && /-opt$/.test(t.className)){
+      var grid = t.closest('.swatch-grid');
+      if (t.value === 'Any color' && t.checked){
+        grid.querySelectorAll('input').forEach(function(o){ if (o !== t) o.checked = false; });
+      } else if (t.checked){
+        grid.querySelectorAll('input').forEach(function(o){ if (o.value === 'Any color') o.checked = false; });
+      }
+    }
+    clearError(t.closest('.form-group'));
+  });
+
   document.getElementById('alert-form').addEventListener('submit', function(e){
     e.preventDefault();
+    var invalid = validateForm();
+    if (invalid){
+      var det = invalid.closest('.filters-details');
+      if (det) det.open = true;
+      var g = invalid.closest('.form-group') || invalid;
+      g.scrollIntoView({behavior:'smooth', block:'center'});
+      if (invalid.focus) { try { invalid.focus({preventScroll:true}); } catch(_){} }
+      return;
+    }
     var form = e.target;
     var btn = document.getElementById('submit-btn');
     var errorEl = document.getElementById('submit-error');
