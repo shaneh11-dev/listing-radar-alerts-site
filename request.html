@@ -460,10 +460,10 @@
     btn.textContent = 'Sending...';
     fetch("https://somo-2.app.n8n.cloud/webhook/listing-request", {
       method: 'POST',
+      mode: 'no-cors',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: new URLSearchParams(new FormData(form)).toString()
     }).then(function(res){
-      if (!res.ok) throw new Error('Bad response ' + res.status);
       document.getElementById('confirm-email').textContent = email;
       document.getElementById('confirm-count').textContent = count + (count === 1 ? ' vehicle' : ' vehicles');
       document.getElementById('request-form').style.display = 'none';
