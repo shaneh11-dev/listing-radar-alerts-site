@@ -102,6 +102,12 @@
     }
 
     /* FAQ */
+    .receive-list{list-style:none;margin:14px 0 0;padding:0}
+    .receive-list li{font-size:13.5px;color:var(--muted);line-height:1.6;padding:8px 0 8px 22px;position:relative;border-top:1px solid var(--border)}
+    .receive-list li:first-child{border-top:none}
+    .receive-list li::before{content:"\2713";position:absolute;left:0;top:8px;color:var(--green);font-weight:700}
+    .receive-list li b{color:var(--navy-900)}
+    @media (max-width:900px){#receive .why-grid{grid-template-columns:1fr!important}}
     .faq{background:var(--paper)}
     .faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:0}
     .faq-item{border-bottom:1px solid var(--border);padding:24px 0}
@@ -256,12 +262,43 @@
       <div class="flow-num serif">4</div>
       <div class="flow-body">
         <h3>Alerts land on your schedule</h3>
-        <p>You'll get a clean digest by email &mdash; daily or weekly, your choice &mdash; covering new listings and sale results. If you opted in, a short text summary arrives alongside it.</p>
+        <p>Once a day or once a week, at a set time, you'll get a clean digest by email covering new listings and sale results. If you opted in, a short text arrives at the same time with a link to the full details. Nothing matched? You'll still get a short update so you know your radar is working.</p>
         <div class="flow-tags">
           <span class="flow-tag">New listings</span>
           <span class="flow-tag">Sale results</span>
+          <span class="flow-tag">Sent at a set time</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="receive" style="border-top:1px solid var(--border)">
+  <div class="section-head">
+    <div class="kicker">What you'll receive</div>
+    <h2 class="serif">Two ways to hear from us.</h2>
+    <p>Every update goes out once a day or once a week, at a set time. Never a flood of notifications.</p>
+  </div>
+  <div class="why-grid" style="grid-template-columns:repeat(2,1fr);max-width:880px">
+    <div class="why-card">
+      <h4>Email &mdash; your full update</h4>
+      <p>Included with every alert.</p>
+      <ul class="receive-list">
+        <li><b>New listings:</b> year, make and model, color, mileage, and where it's offered, with a link to the listing.</li>
+        <li><b>New sales:</b> what it sold for and how it sold, with a link.</li>
+        <li><b>Daily or weekly,</b> at a set time, your choice.</li>
+        <li><b>A short update even when nothing matches,</b> so you always know the radar is running.</li>
+      </ul>
+    </div>
+    <div class="why-card">
+      <h4>Text &mdash; a heads-up with a link <span style="color:var(--blue-600);font-size:12px;font-weight:700;margin-left:6px">+$2.99/mo</span></h4>
+      <p>Optional add-on.</p>
+      <ul class="receive-list">
+        <li><b>A one-line summary:</b> how many new listings and recent sales match your alert.</li>
+        <li><b>A link to a page with the full details,</b> easy to open on your phone.</li>
+        <li><b>Sent at the same time as your email,</b> once a day or once a week.</li>
+        <li><b>Reply STOP</b> anytime to opt out.</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -273,7 +310,7 @@
   </div>
   <div class="faq-list">
     <div class="faq-item">
-      <div class="faq-q">Why isn't this instant self-serve?</div>
+      <div class="faq-q">Why isn't this a self-serve signup?</div>
       <div class="faq-a">Because collector-car searches rarely fit a clean dropdown. A quick manual confirmation means your filters are set up correctly the first time, instead of you fixing a mismatch after the fact.</div>
     </div>
     <div class="faq-item">
@@ -320,6 +357,18 @@
     <div class="faq-item">
       <div class="faq-q">How do I change my filters, cadence, or unsubscribe?</div>
       <div class="faq-a">Just email support@listingradaralerts.com. There's no dashboard to log into &mdash; a person will make the change directly.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How often will I get alerts?</div>
+      <div class="faq-a">Once a day or once a week, at a set time, depending on the cadence you choose. Texts, if you add them, go out at the same time as your email.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What if nothing matches?</div>
+      <div class="faq-a">You'll still get a short update so you know your radar is running and simply had nothing new to report.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What's in a text alert?</div>
+      <div class="faq-a">A one-line summary of how many new listings and recent sales match your alert, plus a link to a page with the full details. The email has the same details in full.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">How fast will I start getting alerts?</div>
