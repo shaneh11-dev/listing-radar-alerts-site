@@ -449,6 +449,14 @@
   document.querySelectorAll('.vehicle-card').forEach(fillFilters);
   renumberVehicles();
 
+  /* ?sms=1 opens the text-alert section so the opt-in disclosure is visible (used for carrier review) */
+  (function showSmsFromQuery(){
+    if (new URLSearchParams(window.location.search).get('sms') === '1') {
+      var box = document.getElementById('f-sms');
+      if (box) { box.checked = true; document.getElementById('sms-phone-wrap').classList.add('show'); }
+    }
+  })();
+
   (function prefillVehicleFromQuery(){
     var params = new URLSearchParams(window.location.search);
     var v = params.get('vehicle');
