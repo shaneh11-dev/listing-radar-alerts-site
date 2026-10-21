@@ -151,6 +151,21 @@
     .submit-btn:hover{background:var(--blue-600)}
     .form-fine-print{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
 
+    .vehicle-opts{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+    .vopt-label{display:block;font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+    .vehicle-opts .radio-pill span{padding:8px 16px;font-size:13px}
+    .vehicle-opts .check-row{margin-top:14px}
+    .vehicle-opts .check-row label{font-size:13px}
+    .vehicle-opts .addon-tag{font-size:11px;color:var(--blue-600);font-weight:700;margin-left:6px}
+    .state-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .state-chips:empty{display:none}
+    .state-chip{display:inline-flex;align-items:center;gap:6px;background:var(--blue-100);border:1px solid var(--navy-900);border-radius:999px;padding:5px 6px 5px 12px;font-size:12.5px;font-weight:600;color:var(--navy-900)}
+    .state-chip button{border:none;background:rgba(20,36,60,0.12);color:var(--navy-900);width:18px;height:18px;border-radius:50%;font-size:12px;line-height:1;cursor:pointer}
+    .state-chip button:hover{background:var(--red);color:var(--white)}
+    .sms-box{margin-top:6px;margin-left:0;padding:18px;border:1px solid var(--border);border-radius:12px;background:var(--paper)}
+    .sms-box h4{font-size:13.5px;color:var(--navy-900);margin-bottom:4px}
+    .sms-box .sms-intro{font-size:12px;color:var(--muted);margin-bottom:14px}
+
     /* ASIDE */
     .aside-card{background:var(--navy-900);border-radius:16px;padding:28px 26px;color:var(--white)}
     .aside-card h3{font-family:Georgia,serif;font-size:18px;margin-bottom:18px}
@@ -262,6 +277,20 @@
               <button type="button" class="vehicle-remove" onclick="removeVehicle(this)" aria-label="Remove vehicle" style="display:none">&times;</button>
             </div>
             <div class="form-group vdesc"><textarea class="vehicle-input" placeholder="e.g. Porsche 911 (1965–1973), Ferrari Dino 246 GT, Ford Mustang Boss 302..."></textarea></div>
+            <div class="vehicle-opts">
+              <span class="vopt-label">How often?</span>
+              <div class="radio-pills">
+                <label class="radio-pill"><input type="radio" name="cadence_1" value="Daily" /><span>Daily</span></label>
+                <label class="radio-pill"><input type="radio" name="cadence_1" value="Weekly" checked /><span>Weekly</span></label>
+              </div>
+              <div class="check-row">
+                <input type="checkbox" class="vehicle-sms" id="vsms-1" />
+                <div>
+                  <label for="vsms-1">Also text me about this vehicle <span class="addon-tag">+$2.99/mo</span></label>
+                  <div class="form-hint">A short text with a link to your full update, sent with your email</div>
+                </div>
+              </div>
+            </div>
             <details class="filters-details">
               <summary>
                 <span>Add filters for this vehicle <span class="addon-tag">+$2.99/mo</span></span>
@@ -272,38 +301,23 @@
           </div>
         </div>
         <button type="button" class="add-vehicle-btn" onclick="addVehicle()">+ Add another vehicle</button>
-        <div class="form-hint">Give us the make, model, and year range for each vehicle. The more specific you are &mdash; generation, trim, engine &mdash; the faster we can match it to a market we already track, or set a new one up if it isn't there yet. Each additional vehicle is +$4.99/mo, and filters are optional per vehicle at +$2.99/mo each. We'll confirm exact pricing by email. Browse <a href="cars-we-track.html" style="color:var(--blue-600);font-weight:600">what we already track</a> for examples.</div>
+        <div class="form-hint">Give us the make, model, and year range for each vehicle. The more specific you are &mdash; generation, trim, engine &mdash; the faster we can match it to a market we already track, or set a new one up if it isn't there yet. Each additional vehicle is +$4.99/mo, and filters and text alerts are optional per vehicle at +$2.99/mo each. We'll confirm exact pricing by email. Browse <a href="cars-we-track.html" style="color:var(--blue-600);font-weight:600">what we already track</a> for examples.</div>
       </div>
 
-      <div class="form-group">
-        <label>Alert cadence</label>
-        <div class="radio-pills">
-          <label class="radio-pill"><input type="radio" name="cadence" value="daily" /><span>Daily</span></label>
-          <label class="radio-pill"><input type="radio" name="cadence" value="weekly" checked /><span>Weekly</span></label>
+      <div class="sms-box sms-phone" id="sms-phone-wrap">
+        <h4>Text alerts</h4>
+        <div class="sms-intro">You chose text alerts for at least one vehicle. We only need your number once.</div>
+        <div class="form-group sms-field">
+          <label for="f-phone">Mobile number for text alerts</label>
+          <input type="tel" id="f-phone" name="phone" placeholder="(555) 123-4567" inputmode="tel" autocomplete="tel" maxlength="14" />
+          <div class="form-hint">U.S. mobile number, 10 digits, in this format: (555) 123-4567</div>
         </div>
-      </div>
-
-      <div class="form-group">
-        <div class="check-row">
-          <input type="checkbox" id="f-sms" name="sms_alerts" value="yes" onchange="document.getElementById('sms-phone-wrap').classList.toggle('show', this.checked)" />
-          <div>
-            <label for="f-sms">Also send text (SMS) alerts</label>
-            <div class="form-hint">+$2.99/mo &middot; A short text with a link to your full update, sent with your email</div>
+        <div class="form-group sms-field sms-consent">
+          <div class="check-row">
+            <input type="checkbox" id="f-sms-consent" name="sms_consent" value="yes" />
+            <label for="f-sms-consent" id="sms-consent-text">I agree to receive recurring automated text messages from Listing Radar Alerts at the mobile number above about the vehicle listing alerts I requested. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. Consent is not a condition of purchase.</label>
           </div>
-        </div>
-        <div class="sms-phone" id="sms-phone-wrap">
-          <div class="form-group sms-field">
-            <label for="f-phone">Mobile number for text alerts</label>
-            <input type="tel" id="f-phone" name="phone" placeholder="(555) 123-4567" inputmode="tel" autocomplete="tel" maxlength="14" />
-            <div class="form-hint">U.S. mobile number, 10 digits, in this format: (555) 123-4567</div>
-          </div>
-          <div class="form-group sms-field sms-consent">
-            <div class="check-row">
-              <input type="checkbox" id="f-sms-consent" name="sms_consent" value="yes" />
-              <label for="f-sms-consent" id="sms-consent-text">I agree to receive recurring automated text messages from Listing Radar Alerts at the mobile number above about the vehicle listing alerts I requested. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. Consent is not a condition of purchase.</label>
-            </div>
-            <div class="form-hint" style="margin-left:27px">See our <a href="terms.html" target="_blank" rel="noopener" style="color:var(--blue-600);font-weight:600">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener" style="color:var(--blue-600);font-weight:600">Privacy Policy</a>. We never share your mobile number or opt-in data with third parties for marketing.</div>
-          </div>
+          <div class="form-hint" style="margin-left:27px">See our <a href="terms.html" target="_blank" rel="noopener" style="color:var(--blue-600);font-weight:600">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener" style="color:var(--blue-600);font-weight:600">Privacy Policy</a>. We never share your mobile number or opt-in data with third parties for marketing.</div>
         </div>
       </div>
 
@@ -384,6 +398,59 @@
   var EXT_COLORS=[['Beige','#f1eddb'],['Black','#222222'],['Blue','#0b4a85'],['Brown','#4a2f2d'],['Burgundy','#6d0020'],['Gold','#ffc116'],['Gray','#777777'],['Green','#5aaa12'],['Multicolor','multi'],['Orange','#ffa400'],['Other','other'],['Patina/Primer','#1d4347'],['Pink','#f2339b'],['Purple','#84489c'],['Red','#d91c1f'],['Silver','#c9d0d3'],['Teal/Turquoise','#008a9e'],['White','#ffffff'],['Yellow','#f7d95a']];
   var INT_COLORS=[['Beige/Tan','#f1eddb'],['Black','#222222'],['Blue','#0b4a85'],['Brown','#4a2f2d'],['Gray','#777777'],['Green','#5aaa12'],['Orange','#ffa400'],['Other','other'],['Purple','#84489c'],['Red/Burgundy','#d91c1f'],['Turquoise','#008a9e'],['White','#ffffff'],['Yellow','#f7d95a']];
 
+  var STATES=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+  var vehicleSeq = 1;
+
+  function stateHtml(){
+    return '<div class="form-group full"><label>State(s)</label>'
+      + '<input type="hidden" class="vehicle-state" value="" />'
+      + '<select class="vehicle-state-select is-empty"><option value="">Add a state&hellip;</option>'
+      + STATES.map(function(n){return '<option value="'+n+'">'+n+'</option>';}).join('')
+      + '</select>'
+      + '<div class="state-chips"></div>'
+      + '<label class="any-toggle"><input type="checkbox" class="vehicle-state-any" /> Anywhere in the US</label>'
+      + '<div class="form-hint">Add states one at a time, or choose &ldquo;Anywhere.&rdquo;</div></div>';
+  }
+
+  function selectedStates(card){
+    return Array.prototype.map.call(card.querySelectorAll('.state-chip'), function(c){return c.getAttribute('data-state');});
+  }
+
+  function syncStates(card){
+    card.querySelector('.vehicle-state').value = selectedStates(card).join(', ');
+  }
+
+  function addState(card, name){
+    if (!name || selectedStates(card).indexOf(name) !== -1) return;
+    var chip = document.createElement('span');
+    chip.className = 'state-chip';
+    chip.setAttribute('data-state', name);
+    chip.appendChild(document.createTextNode(name + ' '));
+    var x = document.createElement('button');
+    x.type = 'button'; x.className = 'state-chip-x'; x.setAttribute('aria-label', 'Remove ' + name); x.innerHTML = '&times;';
+    chip.appendChild(x);
+    card.querySelector('.state-chips').appendChild(chip);
+    syncStates(card);
+  }
+
+  function vehicleOptsHtml(n){
+    return '<div class="vehicle-opts"><span class="vopt-label">How often?</span>'
+      + '<div class="radio-pills">'
+      + '<label class="radio-pill"><input type="radio" name="cadence_'+n+'" value="Daily" /><span>Daily</span></label>'
+      + '<label class="radio-pill"><input type="radio" name="cadence_'+n+'" value="Weekly" checked /><span>Weekly</span></label>'
+      + '</div>'
+      + '<div class="check-row"><input type="checkbox" class="vehicle-sms" id="vsms-'+n+'" />'
+      + '<div><label for="vsms-'+n+'">Also text me about this vehicle <span class="addon-tag">+$2.99/mo</span></label>'
+      + '<div class="form-hint">A short text with a link to your full update, sent with your email</div></div></div></div>';
+  }
+
+  function anySmsChecked(){
+    return document.querySelectorAll('.vehicle-sms:checked').length > 0;
+  }
+  function updateSmsBox(){
+    document.getElementById('sms-phone-wrap').classList.toggle('show', anySmsChecked());
+  }
+
   function selectHtml(cls,label,opts){
     return '<div class="form-group"><label>'+label+'</label><select class="'+cls+' is-empty"><option value="">Select&hellip;</option>'
       + opts.map(function(o){return '<option value="'+o+'">'+o+'</option>';}).join('')
@@ -406,7 +473,7 @@
       + swatchHtml('vehicle-extcolor','Exterior color',EXT_COLORS)
       + swatchHtml('vehicle-intcolor','Interior color',INT_COLORS)
       + '<div class="form-group"><label>Max mileage</label><input type="text" class="vehicle-mileage" placeholder="e.g. 60,000" /><label class="any-toggle"><input type="checkbox" class="vehicle-mileage-any" /> No mileage limit</label></div>'
-      + '<div class="form-group"><label>State(s)</label><input type="text" class="vehicle-state" placeholder="e.g. TX, OK, LA" /><div class="form-hint">List the states you want, or say &quot;anywhere&quot; if location doesn&#39;t matter.</div></div>'
+      + stateHtml()
       + selectHtml('vehicle-region','US or international',['US','International','Both US & International'])
       + selectHtml('vehicle-drive','Drive side',['Left-hand drive','Right-hand drive','Either'])
       + selectHtml('vehicle-orig','Originality',['Original','Restored','Modified','Any'])
@@ -422,9 +489,11 @@
     var list = document.getElementById('vehicle-list');
     var card = document.createElement('div');
     card.className = 'vehicle-card';
+    vehicleSeq += 1;
     card.innerHTML = '<div class="vehicle-card-head"><span class="vehicle-num"></span>'
       + '<button type="button" class="vehicle-remove" onclick="removeVehicle(this)" aria-label="Remove vehicle">&times;</button></div>'
       + '<div class="form-group vdesc"><textarea class="vehicle-input" placeholder="e.g. Jaguar E-Type Series 1, Toyota Land Cruiser FJ40..."></textarea></div>'
+      + vehicleOptsHtml(vehicleSeq)
       + '<details class="filters-details"><summary><span>Add filters for this vehicle <span class="addon-tag">+$2.99/mo</span></span><span class="plus">+</span></summary>'
       + '<div class="filters-body"></div></details>';
     list.appendChild(card);
@@ -435,6 +504,7 @@
   function removeVehicle(btn){
     btn.closest('.vehicle-card').remove();
     renumberVehicles();
+    updateSmsBox();
   }
 
   function renumberVehicles(){
@@ -452,8 +522,8 @@
   /* ?sms=1 opens the text-alert section so the opt-in disclosure is visible (used for carrier review) */
   (function showSmsFromQuery(){
     if (new URLSearchParams(window.location.search).get('sms') === '1') {
-      var box = document.getElementById('f-sms');
-      if (box) { box.checked = true; document.getElementById('sms-phone-wrap').classList.add('show'); }
+      var box = document.querySelector('.vehicle-sms');
+      if (box) { box.checked = true; updateSmsBox(); }
     }
   })();
 
@@ -473,7 +543,7 @@
 
   function fieldValue(card, cls){
     var anyBox = card.querySelector('.'+cls+'-any');
-    if (anyBox && anyBox.checked) return cls === 'vehicle-mileage' ? 'No limit' : 'Any';
+    if (anyBox && anyBox.checked) return cls === 'vehicle-mileage' ? 'No limit' : (cls === 'vehicle-state' ? 'Anywhere' : 'Any');
     if (card.querySelector('.'+cls+'-opt')) return chipValues(card, cls).join(', ');
     var el = card.querySelector('.'+cls);
     return el ? el.value.trim() : '';
@@ -488,6 +558,9 @@
     var out = [];
     document.querySelectorAll('.vehicle-card').forEach(function(card, i){
       var lines = ['VEHICLE ' + (i + 1) + ': ' + card.querySelector('.vehicle-input').value.trim()];
+      var cadEl = card.querySelector('input[type=radio]:checked');
+      lines.push('  Cadence: ' + (cadEl ? cadEl.value : 'Weekly'));
+      lines.push('  Text alerts: ' + (card.querySelector('.vehicle-sms').checked ? 'Yes' : 'No'));
       var filters = [];
       fields.forEach(function(f){
         var v = fieldValue(card, f[0]);
@@ -546,7 +619,7 @@
         ['vehicle-extcolor','Choose at least one exterior color, or "Any color".'],
         ['vehicle-intcolor','Choose at least one interior color, or "Any color".'],
         ['vehicle-mileage','Enter a max mileage, or check "No mileage limit".'],
-        ['vehicle-state','Enter state(s), or type "anywhere".'],
+        ['vehicle-state','Add at least one state, or choose "Anywhere in the US".'],
         ['vehicle-region','Choose US, international, or both.'],
         ['vehicle-drive','Choose a drive side.'],
         ['vehicle-orig','Choose an originality option.']
@@ -559,13 +632,12 @@
       });
     });
 
-    var sms = document.getElementById('f-sms');
     var phone = document.getElementById('f-phone');
-    if (sms.checked){
+    if (anySmsChecked()){
       var digits = phone.value.replace(/\D/g,'');
       if (digits.length !== 10) bad(phone, 'Enter a 10-digit U.S. mobile number, like (555) 123-4567.');
       var consent = document.getElementById('f-sms-consent');
-      if (!consent.checked) bad(consent, 'Please check the box to agree to receive text messages, or uncheck text alerts.');
+      if (!consent.checked) bad(consent, 'Please check the box to agree to receive text messages, or untick the text alert boxes.');
     }
     return first;
   }
@@ -586,8 +658,27 @@
     clearError(e.target.closest('.form-group'));
   });
 
+  formEl.addEventListener('click', function(e){
+    var x = e.target.closest ? e.target.closest('.state-chip-x') : null;
+    if (!x) return;
+    var card = x.closest('.vehicle-card');
+    x.closest('.state-chip').remove();
+    syncStates(card);
+  });
+
   formEl.addEventListener('change', function(e){
     var t = e.target;
+    if (t.classList.contains('vehicle-sms')) updateSmsBox();
+    if (t.classList.contains('vehicle-state-select')){
+      addState(t.closest('.vehicle-card'), t.value);
+      t.value = '';
+    }
+    if (t.classList.contains('vehicle-state-any')){
+      var card = t.closest('.vehicle-card');
+      var sel = card.querySelector('.vehicle-state-select');
+      sel.disabled = t.checked;
+      if (t.checked){ card.querySelector('.state-chips').innerHTML = ''; syncStates(card); }
+    }
     if (t.tagName === 'SELECT') t.classList.toggle('is-empty', !t.value);
     if (t.type === 'checkbox' && /-any$/.test(t.className)){
       var txt = t.closest('.form-group').querySelector('input[type=text]');
@@ -621,10 +712,21 @@
     var errorEl = document.getElementById('submit-error');
     errorEl.style.display = 'none';
     document.getElementById('vehicles-summary').value = buildVehiclesSummary();
-    ['sms_consent_text','consent_timestamp','consent_page'].forEach(function(n){
+    ['sms_consent_text','consent_timestamp','consent_page','sms_alerts','cadence'].forEach(function(n){
       var old = form.querySelector('input[type=hidden][name="'+n+'"]'); if (old) old.remove();
     });
-    if (document.getElementById('f-sms').checked && document.getElementById('f-sms-consent').checked){
+    (function(){
+      var cads = {};
+      document.querySelectorAll('.vehicle-card').forEach(function(c){
+        var r = c.querySelector('input[type=radio]:checked'); cads[r ? r.value : 'Weekly'] = true;
+      });
+      var keys = Object.keys(cads);
+      [['sms_alerts', anySmsChecked() ? 'yes' : 'no'],
+       ['cadence', keys.length === 1 ? keys[0].toLowerCase() : 'mixed (see each vehicle)']].forEach(function(kv){
+        var h = document.createElement('input'); h.type = 'hidden'; h.name = kv[0]; h.value = kv[1]; form.appendChild(h);
+      });
+    })();
+    if (anySmsChecked() && document.getElementById('f-sms-consent').checked){
       [['sms_consent_text', document.getElementById('sms-consent-text').textContent.trim()],
        ['consent_timestamp', new Date().toISOString()],
        ['consent_page', window.location.href.split('?')[0]]].forEach(function(kv){
