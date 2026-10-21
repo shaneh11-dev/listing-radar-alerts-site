@@ -1,2 +1,3 @@
+/a/sample  /sample-alert.html  200
 /a/:id  https://somo-2.app.n8n.cloud/webhook/alert-page?id=:id  200
 /l/:id  https://somo-2.app.n8n.cloud/webhook/listing-link?id=:id  200

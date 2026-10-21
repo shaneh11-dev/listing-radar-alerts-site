@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1068 600" width="1068" height="600" role="img" aria-label="Illustration of a classic sports coupe">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6edf6"/><stop offset="1" stop-color="#cdd9e8"/></linearGradient>
+<linearGradient id="body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f6f5a"/><stop offset="1" stop-color="#1d4a3b"/></linearGradient>
+</defs>
+<rect width="1068" height="600" fill="url(#bg)"/>
+<rect y="430" width="1068" height="170" fill="#b9c8dc"/>
+<ellipse cx="534" cy="450" rx="360" ry="16" fill="#8fa3bd" opacity=".55"/>
+<path d="M170 400 C170 372 190 358 232 350 L360 330 C400 288 470 252 560 250 C650 248 722 282 764 328 L860 344 C906 352 928 366 930 394 L930 420 L170 420 Z" fill="url(#body)"/>
+<path d="M392 330 C428 296 484 272 556 270 C626 270 684 296 722 330 Z" fill="#cfe0ef"/>
+<path d="M556 270 L556 330" stroke="#1d4a3b" stroke-width="6"/>
+<rect x="170" y="396" width="760" height="14" fill="#16382d"/>
+<rect x="880" y="372" width="36" height="16" rx="6" fill="#f7f1d2"/>
+<rect x="184" y="372" width="28" height="14" rx="5" fill="#c0392b"/>
+<g><circle cx="318" cy="424" r="62" fill="#1b2230"/><circle cx="318" cy="424" r="38" fill="#c7d0dc"/><circle cx="318" cy="424" r="14" fill="#1b2230"/></g>
+<g><circle cx="778" cy="424" r="62" fill="#1b2230"/><circle cx="778" cy="424" r="38" fill="#c7d0dc"/><circle cx="778" cy="424" r="14" fill="#1b2230"/></g>
+</svg>
