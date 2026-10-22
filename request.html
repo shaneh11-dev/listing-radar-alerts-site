@@ -733,6 +733,11 @@
         var h = document.createElement('input'); h.type = 'hidden'; h.name = kv[0]; h.value = kv[1]; form.appendChild(h);
       });
     }
+    ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(function(n){
+      var old = form.querySelector('input[type=hidden][name="'+n+'"]'); if (old) old.remove();
+      var v = ''; try { v = new URLSearchParams(window.location.search).get(n) || sessionStorage.getItem(n) || ''; } catch(_){}
+      if (v){ var h = document.createElement('input'); h.type = 'hidden'; h.name = n; h.value = v; form.appendChild(h); }
+    });
     var email = document.getElementById('f-email').value || 'your email';
     var count = document.querySelectorAll('.vehicle-input').length;
     btn.disabled = true;
@@ -754,6 +759,10 @@
       btn.textContent = 'Send My Request';
     });
   });
+</script>
+<script>
+// Remember which email brought the visitor (utm tags) while they click through the site.
+(function(){try{var p=new URLSearchParams(location.search);['utm_source','utm_medium','utm_campaign','utm_content'].forEach(function(n){var v=p.get(n);if(v){sessionStorage.setItem(n,v.slice(0,80));}});}catch(e){}})();
 </script>
 </body>
 </html>
