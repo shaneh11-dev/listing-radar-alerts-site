@@ -178,8 +178,8 @@
       width:100%;height:132px;
       background-color:#14243c;background-size:cover;background-position:center;
     }
-    .email-thumb.huracan{background-image:linear-gradient(135deg,rgba(63,123,196,0.50),rgba(20,36,60,0.62)),url('car-huracan.jpg')}
-    .email-thumb.porsche{background-image:linear-gradient(135deg,rgba(63,123,196,0.50),rgba(20,36,60,0.62)),url('car-porsche-turbo.jpg')}
+    .email-thumb.viper-green{background-image:linear-gradient(135deg,rgba(63,123,196,0.50),rgba(20,36,60,0.62)),url('viper-green.jpg')}
+    .email-thumb.viper-gts{background-image:linear-gradient(135deg,rgba(63,123,196,0.50),rgba(20,36,60,0.62)),url('viper-gts.jpg')}
     .email-card-body{padding:12px 14px 14px}
     .email-listing-title{font-family:Georgia,serif;font-size:13.5px;color:var(--navy-900);margin-bottom:5px;border-bottom:1px solid #b3c5db;display:inline-block;padding-bottom:1px}
     .email-listing-meta{font-size:10.5px;color:var(--muted);line-height:1.5;margin-bottom:9px}
@@ -188,7 +188,11 @@
       color:#ffffff;padding:3px 8px;border-radius:2px;margin-bottom:9px;
     }
     .email-badge.sold{background:#1d6b52}
-    .email-view-btn{
+    .email-badge.ended{background:#14243c}
+    .sample-btn{display:inline-block;margin-top:20px;padding:13px 24px;border:1.5px solid var(--blue-300);border-radius:9px;background:rgba(122,167,219,0.14);color:#ffffff;font-weight:700;font-size:15px;letter-spacing:0.01em;transition:background 0.15s,border-color 0.15s}
+    .sample-btn:hover{background:rgba(122,167,219,0.28);border-color:#ffffff}
+    .email-listing-title a{color:inherit;text-decoration:none}
+    .email-view-btn{text-decoration:none;
       display:inline-block;background:var(--blue-600);color:#eaf1f9;
       font-size:9.5px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;
       padding:7px 12px;border-radius:2px;
@@ -423,6 +427,7 @@
       <a href="how-it-works.html">How it works</a>
       <a href="cars-we-track.html">Cars we track</a>
       <a href="pricing.html">Pricing</a>
+      <a href="/a/sample">Sample alert</a>
     </div>
     <a class="nav-cta" href="request.html">Get Alerts Now</a>
   </div>
@@ -439,7 +444,7 @@
         <button class="hero-btn" type="submit">Get Alerts Now</button>
       </form>
       <div class="hero-sub">Your search carries over into the request form &mdash; <strong>15,000+ vehicles</strong> already on our radar.</div>
-      <div style="margin-top:18px"><a href="/a/sample" style="color:var(--blue-300);font-weight:600;font-size:14px">See a full sample alert &rarr;</a></div>
+      <a class="sample-btn" href="/a/sample">See a full sample alert <span aria-hidden="true">&rarr;</span></a>
       <div class="hero-audience">
         <span class="hero-audience-label">Built for</span>
         <span class="audience-pill">Collectors</span>
@@ -463,26 +468,26 @@
               </div>
             </div>
             <div class="email-hr"></div>
-            <div class="email-cadence-line">Your Weekly Update: <b>Lamborghini Hurac&aacute;n &amp; Porsche 911 Turbo</b></div>
+            <div class="email-cadence-line">Your Weekly Update: <b>Dodge Viper</b></div>
           </div>
           <div class="email-body">
             <div class="email-section-label">New Listings</div>
             <div class="email-card">
-              <div class="email-thumb huracan"></div>
+              <div class="email-thumb viper-green"></div>
               <div class="email-card-body">
-                <div class="email-listing-title">2017 Lamborghini Hurac&aacute;n Spyder</div>
-                <div class="email-listing-meta">Spotted in Greenwich, Connecticut on Oct 20, 2026 &mdash; listed by a private seller</div>
-                <div><span class="email-view-btn">View Listing</span></div>
+                <div class="email-listing-title"><a href="https://bringatrailer.com/listing/1995-dodge-viper-49/" target="_blank" rel="noopener noreferrer">1995 Dodge Viper RT/10</a></div>
+                <div class="email-listing-meta">Green with a tan leather interior</div>
+                <div><a class="email-view-btn" href="https://bringatrailer.com/listing/1995-dodge-viper-49/" target="_blank" rel="noopener noreferrer">View Listing</a></div>
               </div>
             </div>
             <div class="email-section-label">New Sales</div>
             <div class="email-card">
-              <div class="email-thumb porsche"></div>
+              <div class="email-thumb viper-gts"></div>
               <div class="email-card-body">
-                <span class="email-badge sold">SOLD &mdash; $176,000</span>
-                <div class="email-listing-title">1978 Porsche 911 Turbo Coupe</div>
-                <div class="email-listing-meta">Spotted in Charlotte, North Carolina on Oct 12, 2026 &mdash; sold at auction</div>
-                <div><span class="email-view-btn">View Listing</span></div>
+                <span class="email-badge ended">ENDED &mdash; HIGH BID $55,000</span>
+                <div class="email-listing-title"><a href="https://www.pcarmarket.com/results/1996-dodge-viper-gts-coupe-2" target="_blank" rel="noopener noreferrer">1996 Dodge Viper GTS Coupe</a></div>
+                <div class="email-listing-meta">18,123 miles &middot; Wichita, Kansas &middot; listed by a dealer</div>
+                <div><a class="email-view-btn" href="https://www.pcarmarket.com/results/1996-dodge-viper-gts-coupe-2" target="_blank" rel="noopener noreferrer">View Listing</a></div>
               </div>
             </div>
           </div>
@@ -493,7 +498,7 @@
             <div class="phone-statusbar"><span>11:00</span><span>&#128246;</span></div>
             <div class="phone-contact">Listing Radar Alerts</div>
             <div class="sms-time-label">Weekly &middot; 11:00 AM ET</div>
-            <div class="sms-row in"><div class="sms-bubble"><b>Listing Radar Alerts:</b> 1 new listing + 1 recent sale match your Lamborghini Hurac&aacute;n &amp; Porsche 911 Turbo alerts. Full details: listingradaralerts.com/a/sample. Reply STOP to opt out.</div></div>
+            <div class="sms-row in"><div class="sms-bubble"><b>Listing Radar Alerts:</b> 2 new listings + 1 recent sale match your Dodge Viper alert. Full details: listingradaralerts.com/a/sample. Reply STOP to opt out.</div></div>
           </div>
         </div>
       </div>
@@ -644,6 +649,7 @@
           <a href="how-it-works.html">How it works</a>
           <a href="cars-we-track.html">Cars we track</a>
           <a href="pricing.html">Pricing</a>
+          <a href="/a/sample">Sample alert</a>
         </div>
         <div class="footer-col">
           <h4>Support</h4>
