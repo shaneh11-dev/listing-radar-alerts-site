@@ -60,6 +60,8 @@
     .sn-head{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--navy-900);margin-bottom:8px}
     .sn-icon{flex:none;width:18px;height:18px;border-radius:50%;background:var(--navy-900);color:var(--white);font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:12px;line-height:18px;text-align:center}
     .sn-row{display:flex;flex-wrap:wrap;gap:6px}
+    .sn-foot{font-size:12px;line-height:1.45;color:var(--muted);margin-top:8px}
+    .sn-foot b{color:var(--navy-900);font-weight:600}
     .sn-pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;line-height:1.2;padding:5px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
     .sn-pill::before{font-weight:700;font-size:12px}
     .sn-pill.ok{background:#e6f5ed;border-color:#bfe3cf;color:#1f6b45}
@@ -289,6 +291,7 @@
             <span class="sn-pill ok">Corvette C2 (1963&ndash;67)</span>
             <span class="sn-pill no">&ldquo;All Mustangs, 1965&ndash;2010&rdquo; = several alerts</span>
           </div>
+          <div class="sn-foot"><b>Not sure which generation?</b> We&rsquo;ll help you find the best match.</div>
         </div>
         <div id="vehicle-list">
           <div class="vehicle-card">
@@ -321,7 +324,7 @@
           </div>
         </div>
         <button type="button" class="add-vehicle-btn" onclick="addVehicle()">+ Add another vehicle</button>
-        <div class="form-hint">Give us the make, model, generation or year range, and trim for each vehicle. Not sure which generation? Tell us what you're after and we'll help you pick. The more specific you are, the faster we can match it to a market we already track, or set a new one up if it isn't there yet. Each additional vehicle is +$4.99/mo, and filters and text alerts are optional per vehicle at +$2.99/mo each. We'll confirm the number of alerts and your total by email before you're invoiced. Browse <a href="cars-we-track.html" style="color:var(--blue-600);font-weight:600">what we already track</a> for examples.</div>
+        <div class="form-hint">Give us the make, model, generation or year range, and trim for each vehicle. The more specific you are, the faster we can match it to a market we already track, or set a new one up if it isn't there yet. Each additional vehicle is +$4.99/mo, and filters and text alerts are optional per vehicle at +$2.99/mo each. We'll confirm the number of alerts and your total by email before you're invoiced. Browse <a href="cars-we-track.html" style="color:var(--blue-600);font-weight:600">what we already track</a> for examples.</div>
       </div>
 
       <div class="sms-box sms-phone" id="sms-phone-wrap">
