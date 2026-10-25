@@ -56,6 +56,12 @@
     .form-group{margin-bottom:22px}
     .form-group label{display:block;font-size:13.5px;font-weight:600;color:var(--navy-900);margin-bottom:8px}
     .form-hint{font-size:12px;color:var(--muted);margin-top:6px}
+    .specific-note{background:var(--blue-100);border:1px solid var(--border);border-left:3px solid var(--blue-600);border-radius:10px;padding:14px 16px;margin:0 0 14px;font-size:13px;line-height:1.55;color:#33465c}
+    .specific-note b{color:var(--navy-900)}
+    .specific-note ul{list-style:none;margin:8px 0 8px 0}
+    .specific-note li{padding-left:22px;position:relative;margin-bottom:4px}
+    .specific-note li.ok::before{content:"\2713";position:absolute;left:2px;color:var(--green);font-weight:700}
+    .specific-note li.no::before{content:"\2717";position:absolute;left:2px;color:var(--red);font-weight:700}
     .form-group input[type=text],.form-group input[type=email],.form-group input[type=tel],.form-group textarea{
       width:100%;font-family:'Space Grotesk',sans-serif;font-size:14.5px;color:var(--ink);
       background:var(--white);border:1px solid var(--border);border-radius:9px;padding:12px 14px;outline:none;
@@ -271,13 +277,22 @@
 
       <div class="form-group">
         <label>Vehicle(s) you want tracked</label>
+        <div class="specific-note">
+          <b>Each alert tracks one specific model and generation.</b>
+          <ul>
+            <li class="ok">Porsche 911 Turbo &ndash; 993 (1995&ndash;1998)</li>
+            <li class="ok">Ferrari 308 GTB (1975&ndash;1985)</li>
+            <li class="no">&ldquo;All Porsche 911s, 2000&ndash;2010&rdquo; &mdash; that spans several generations, so it would be several alerts.</li>
+          </ul>
+          Not sure which generation? Just tell us what you&rsquo;re after and we&rsquo;ll help you pick. We confirm the number of alerts and your total before you&rsquo;re invoiced.
+        </div>
         <div id="vehicle-list">
           <div class="vehicle-card">
             <div class="vehicle-card-head">
               <span class="vehicle-num">Vehicle 1</span>
               <button type="button" class="vehicle-remove" onclick="removeVehicle(this)" aria-label="Remove vehicle" style="display:none">&times;</button>
             </div>
-            <div class="form-group vdesc"><textarea class="vehicle-input" placeholder="e.g. Porsche 911 (1965–1973), Ferrari Dino 246 GT, Ford Mustang Boss 302..."></textarea></div>
+            <div class="form-group vdesc"><textarea class="vehicle-input" placeholder="e.g. Porsche 911 Turbo - 993 (1995–1998)"></textarea></div>
             <div class="vehicle-opts">
               <span class="vopt-label">How often?</span>
               <div class="radio-pills">
@@ -302,7 +317,7 @@
           </div>
         </div>
         <button type="button" class="add-vehicle-btn" onclick="addVehicle()">+ Add another vehicle</button>
-        <div class="form-hint">Give us the make, model, and year range for each vehicle. The more specific you are &mdash; generation, trim, engine &mdash; the faster we can match it to a market we already track, or set a new one up if it isn't there yet. Each additional vehicle is +$4.99/mo, and filters and text alerts are optional per vehicle at +$2.99/mo each. We'll confirm exact pricing by email. Browse <a href="cars-we-track.html" style="color:var(--blue-600);font-weight:600">what we already track</a> for examples.</div>
+        <div class="form-hint">Give us the make, model, generation or year range, and trim for each vehicle. One alert covers one specific model and generation, so the more specific you are, the faster we can match it to a market we already track, or set a new one up if it isn't there yet. Each additional vehicle is +$4.99/mo, and filters and text alerts are optional per vehicle at +$2.99/mo each. We'll confirm exact pricing by email. Browse <a href="cars-we-track.html" style="color:var(--blue-600);font-weight:600">what we already track</a> for examples.</div>
       </div>
 
       <div class="sms-box sms-phone" id="sms-phone-wrap">
@@ -494,7 +509,7 @@
     vehicleSeq += 1;
     card.innerHTML = '<div class="vehicle-card-head"><span class="vehicle-num"></span>'
       + '<button type="button" class="vehicle-remove" onclick="removeVehicle(this)" aria-label="Remove vehicle">&times;</button></div>'
-      + '<div class="form-group vdesc"><textarea class="vehicle-input" placeholder="e.g. Jaguar E-Type Series 1, Toyota Land Cruiser FJ40..."></textarea></div>'
+      + '<div class="form-group vdesc"><textarea class="vehicle-input" placeholder="e.g. Jaguar E-Type Series 1 (1961–1968)"></textarea></div>'
       + vehicleOptsHtml(vehicleSeq)
       + '<details class="filters-details"><summary><span>Add filters for this vehicle <span class="addon-tag">+$2.99/mo</span></span><span class="plus">+</span></summary>'
       + '<div class="filters-body"></div></details>';
